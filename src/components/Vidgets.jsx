@@ -17,6 +17,12 @@ const Vidgets = memo(function Vidgets({ locations }) {
             })
         }, [locations])
 
+
+    function fetchPromisesForNewFiture3() {
+        console.log(11111111);
+        return new Promise((r, re) => r(1));
+    }
+
     function fetchPromisesForNewFiture() {
         console.log(11111111);
         return new Promise((r, re) => r(1));
