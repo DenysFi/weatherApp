@@ -8,8 +8,9 @@ const Vidgets = memo(function Vidgets({ locations }) {
         () => {
             const promises = locations.map((area) => {
                 return new Promise((resolve, reject) => {
-                    axios.get()
+                    axios.get('URL')
                 })
+
             })
         }
         , [locations])
