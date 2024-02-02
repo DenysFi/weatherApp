@@ -3,6 +3,10 @@ import '../scss/vidgets.scss'
 import axios from 'axios';
 
 const Vidgets = memo(function Vidgets({ locations }) {
+    function fetchPromisesForNewFiture2() {
+        console.log(11111111);
+        return new Promise((r, re) => r(1));
+    }
 
     useEffect(
         () => {
@@ -10,10 +14,13 @@ const Vidgets = memo(function Vidgets({ locations }) {
                 return new Promise((resolve, reject) => {
                     axios.get('URL')
                 })
-
             })
-        }
-        , [locations])
+        }, [locations])
+
+    function fetchPromisesForNewFiture() {
+        console.log(11111111);
+        return new Promise((r, re) => r(1));
+    }
 
     return (
         <div className="vidgets">
