@@ -10,11 +10,12 @@ const Vidgets = memo(function Vidgets({ locations }) {
                 return new Promise((resolve, reject) => {
                     axios.get('URL')
                 })
-
             })
-        }
-        , [locations])
+        }, [locations])
 
+    function fetchPromisesForNewFiture() {
+        console.log(11111111);
+    }
     return (
         <div className="vidgets">
             {locations.length ?
