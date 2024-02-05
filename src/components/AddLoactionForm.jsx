@@ -27,6 +27,7 @@ const AddLoactionForm = memo(function AddLoactionForm({ setSelectedArea, selecte
     setRegions(regionsOfCountry);
   }, [selectedArea.country])
 
+
   function handleSelected(value, key = null) {
     if (value instanceof Object) {
       setSelectedArea({

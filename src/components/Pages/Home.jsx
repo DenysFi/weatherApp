@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddLoactionForm from '../AddLoactionForm';
-import { findDoubles } from '../../utiles/utiles';
+import { findDoubles, getFromLocalStorage, isStoreByKey, saveToLocalStorage } from '../../utiles/utiles';
 import Vidgets from '../Vidgets';
 
 const Home = () => {
@@ -11,9 +11,20 @@ const Home = () => {
   });
   const [activeLoacations, setActiveLoacations] = useState([]);
 
+  useEffect(() => {
+    if (!isStoreByKey('areas')) return;
+
+    const storagetAreas = getFromLocalStorage('areas');
+    setActiveLoacations([...storagetAreas])
+  }, [])
+
   function handleActiveLoacations() {
     if (findDoubles(activeLoacations, selectedArea)) {
       setActiveLoacations([...activeLoacations, selectedArea])
+
+      const areas = 'areas';
+      const prevLocations = isStoreByKey(areas) && getFromLocalStorage(areas) || [];
+      saveToLocalStorage([...prevLocations, selectedArea], areas)
     }
   }
 

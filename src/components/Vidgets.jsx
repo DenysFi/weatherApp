@@ -1,19 +1,24 @@
-import { memo, useEffect } from 'react';
+import { memo, useEffect, useState } from 'react';
 import '../scss/vidgets.scss'
 import axios from 'axios';
+import useGeocoding from '../hooks/useGeocoding';
+import Wether from '../classes/Wether';
 
 const Vidgets = memo(function Vidgets({ locations }) {
+    const geolocations = useGeocoding(locations);
+    const [geoWithData, setGeoWithData] = useState([]);
 
-    useEffect(
-        () => {
-            const promises = locations.map((area) => {
-                return new Promise((resolve, reject) => {
-                    axios.get('URL')
-                })
+    useEffect(() => {
+        if (!geolocations.length) return;
 
-            })
+        async function getAll() {
+            const response = await Wether.getAllDataByGeo(geolocations);
+            console.log(response);
         }
-        , [locations])
+        getAll();
+
+    }, [geolocations])
+
 
     return (
         <div className="vidgets">
