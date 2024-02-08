@@ -1,19 +1,18 @@
-import {  useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 
-export function useFetching(callback){
+export function useFetching(callback) {
     const [isPostsLoading, setIsPostsLoading] = useState(false);
     const [error, setError] = useState(true);
     const fetching = useCallback(async () => {
-        console.log('fetching'); 
-        try{
+        try {
             setIsPostsLoading(true)
             await callback();
-        }catch(e){
+        } catch (e) {
             setError(e.message);
-        }finally{
+        } finally {
             setIsPostsLoading(false)
         }
-    },[callback])
-   
+    }, [callback])
+
     return [fetching, isPostsLoading, error]
 }

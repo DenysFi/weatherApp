@@ -5,20 +5,27 @@ import Vidgets from '../Vidgets';
 
 const Home = () => {
   const [selectedArea, setSelectedArea] = useState({
-    country: '',
-    city: '',
-    region: ''
+    country: null,
+    city: null,
+    region: null
   });
   const [activeLoacations, setActiveLoacations] = useState([]);
 
   useEffect(() => {
     if (!isStoreByKey('areas')) return;
 
+    // const obj = {
+    //   city: { ID: 1, name: 'Кривой Рог' },
+    //   country: { ID: 1, name: 'Украина' },
+    //   region: { ID: 1, name: 'Днепропетровская' }
+    // }
+    // saveToLocalStorage([obj], 'areas')
     const storagetAreas = getFromLocalStorage('areas');
     setActiveLoacations([...storagetAreas])
   }, [])
 
   function handleActiveLoacations() {
+    console.log(findDoubles(activeLoacations, selectedArea));
     if (findDoubles(activeLoacations, selectedArea)) {
       setActiveLoacations([...activeLoacations, selectedArea])
 
@@ -27,14 +34,13 @@ const Home = () => {
       saveToLocalStorage([...prevLocations, selectedArea], areas)
     }
   }
-
   return (
     <section className='home'>
-      <AddLoactionForm handleActiveLoacations={handleActiveLoacations} selectedArea={selectedArea} setSelectedArea={setSelectedArea}> </AddLoactionForm>
-      <Vidgets locations={activeLoacations}></Vidgets>
+      {/* <AddLoactionForm handleActiveLoacations={handleActiveLoacations} selectedArea={selectedArea} setSelectedArea={setSelectedArea}> </AddLoactionForm>
+        <Vidgets locations={activeLoacations}></Vidgets> */}
     </section>
   )
 };
-
+// removeFromLocalStorage('areas')
 export default Home;
 
