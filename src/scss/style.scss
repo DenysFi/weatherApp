@@ -1,0 +1,504 @@
+@use "sass:math";
+
+// Підключення міксинів ===========================================================================================================================================================================================================================================================================
+@import "base/mixins";
+
+// Підключення шрифтів ===========================================================================================================================================================================================================================================================================
+//&display=swap - додати при підключенні через плагін
+
+// Підключити, якщо є локальні файли шрифтів
+//@import "fonts/fonts";
+
+// Підключення іконкових шрифтів ==============================================================================================================================================================================================================================================================================
+// Підключити, якщо є файл іконкового шрифту
+//@import "fonts/icons";
+@import url("https://fonts.googleapis.com/css?family=Poppins:regular,500,600,700,800,900&display=swap");
+
+// ============================================================================================================================================================================================================================================================================================================================================================================================
+// Налаштування шаблону ============================================================================================================================================================================================================================================================================================================================================================================================
+// ============================================================================================================================================================================================================================================================================================================================================================================================
+
+// За замовчуванням шрифт ==============================================================================================================================================================================================================================================================================
+$fontFamily: "Poppins";
+$fontSize: toRem(16); // де 14(px) - розмір шрифту за замовчуванням з макету
+
+// Основні кольори
+$mainColor: #000; // Колір шрифту за замовчуванням
+
+// Палітра кольорів
+// @import "base/colors-palette";
+
+// Налаштування адаптивної сітки ===============================================================================================================================================================================================================================================================================================
+
+// Мінімальна ширина сторінки
+$minWidth: 320;
+// Ширина полотна (макету)
+$maxWidth: 1920;
+// Ширина обмежуючого контейнера (0 = немає обмеження)
+$maxWidthContainer: 1440;
+// Загальний відступ у контейнера
+// (30 = по 15px ліворуч і праворуч, 0 = немає відступу)
+$containerPadding: 30;
+
+// Ширина спрацьовування першого брейкпоінту
+$containerWidth: $maxWidthContainer + $containerPadding;
+
+// Брейк-поїнти
+$pc: em($containerWidth); // ПК, ноутбуки, деякі планшети у горизонтальному положенні
+$tablet: em(991.98); // Планшети, деякі телефони в горизонтальному положенні
+$mobile: em(767.98); // Телефони L
+$mobileSmall: em(479.98); // Телефони S
+
+// Тип адаптива:
+// 1 = чуйність (у контейнера немає брейкпоінтів),
+// 2 = по брейк-поїнт (контейнер змінює свою ширину по брейк-поїнт)
+$responsiveType: 1;
+
+// ============================================================================================================================================================================================================================================================================================================================================================================================
+// ============================================================================================================================================================================================================================================================================================================================================================================================
+
+// Обнулення ============================================================================================================================================================================================== =============================================================================================== ===============================================================================================
+@import "base/null";
+
+// Стилі тега BODY ============================================================================================================================================================================================================================================================================================================================================================================================
+body {
+
+	// Скролл заблоковано
+	.lock & {
+		overflow: hidden;
+		touch-action: none;
+		overscroll-behavior: none;
+	}
+
+	// Сайт завантажений
+	.loaded & {}
+}
+
+// Оболонка wrapper ============================================================================================================================================================================================================================================================================================================================================================================================================================================
+.root {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+
+	@supports (overflow: clip) {
+		overflow: clip;
+	}
+
+	// Притискаємо footer
+	>main {
+		flex: 1 1 auto;
+	}
+
+	// Фікс для слайдерів
+	>* {
+		min-width: 0;
+	}
+}
+
+// Обмежуючий контейнер ======================================================================================================================================================================================================================
+/*
+(i) Стилі будуть застосовуватись до
+всіх класів, що містять *__container
+Наприклад header__container, main__container і т.п.
+Сніппет (HTML): cnt
+*/
+@if ($responsiveType==1) {
+
+	// Чуйна
+	[class*="__container"] {
+		@if ($maxWidthContainer>0) {
+			max-width: toRem($containerWidth);
+			margin: 0 auto;
+		}
+
+		@if ($containerPadding>0) {
+			@if ($maxWidthContainer>0) {
+				padding: 0 toRem(math.div($containerPadding, 2));
+			}
+
+			@else {
+				@include adaptiveValue("padding-left", math.div($containerPadding, 2), 15);
+				@include adaptiveValue("padding-right", math.div($containerPadding, 2), 15);
+			}
+		}
+	}
+}
+
+@else {
+
+	// Брейк-поїнтами
+	[class*="__container"] {
+		margin: 0 auto;
+
+		@if ($maxWidthContainer>0) {
+			max-width: toRem($containerWidth);
+		}
+
+		@else {
+			@if ($containerPadding>0) {
+				padding: 0 toRem(math.div($containerPadding, 2));
+			}
+		}
+
+		@media (max-width: $pc) {
+			max-width: toRem(970);
+		}
+
+		@media (max-width: $tablet) {
+			max-width: toRem(750);
+		}
+
+		@media (max-width: $mobile) {
+			max-width: none;
+
+			@if ($containerPadding>0 and $maxWidthContainer>0) {
+				padding: 0 toRem(math.div($containerPadding, 2));
+			}
+		}
+	}
+}
+
+// Підключення базових стилів, шаблонів (заготівель) та допоміжних класів
+// Для підключення/вимкнення конкретних стилів дивись base.scss
+@import "base";
+
+// Підключення стилів загальних елементів проекту
+@import "common";
+
+// Підключення стилів окремих блоків
+@import "header";
+@import "footer";
+
+// Підключення стилів окремих сторінок
+@import "home";
+
+
+.header {
+	background-color: #1f1f1f;
+	background: linear-gradient(0deg, rgba(255, 255, 255, 0) 10%, rgba(0, 0, 0, 1) 100%);
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+
+	// .header__container
+	&__container {
+		display: flex;
+		justify-content: space-between;
+		padding-top: toRem(20);
+		padding-bottom: toRem(20);
+		align-items: center;
+	}
+
+
+	// .header__logo
+	&__logo {}
+
+	&__burger {
+		display: block;
+		position: relative;
+		width: toRem(20);
+		height: toRem(10);
+		z-index: 5;
+
+		@media (any-hover: none) {
+			cursor: default;
+		}
+
+		transition: all 0.3s;
+
+		span,
+		&::before,
+		&::after {
+			content: "";
+			transition: all 0.3s ease 0s;
+			right: 0;
+			position: absolute;
+			height: toRem(1);
+			background-color: #ffffff;
+			border-radius: 50%;
+		}
+
+		&::before {
+			top: 0;
+			width: 100%;
+
+		}
+
+		&::after {
+			bottom: 0;
+			width: 50%;
+		}
+
+		span {
+			top: calc(50% - toRem(1));
+			width: 75%;
+		}
+
+		.menu-open & {
+			span {
+				width: 0;
+			}
+
+			&::before,
+			&::after {}
+
+			&::before {
+				top: calc(50% - toRem(1));
+				transform: rotate(-45deg);
+			}
+
+			&::after {
+				bottom: calc(50% - toRem(1));
+				transform: rotate(45deg);
+			}
+		}
+	}
+}
+
+//========================================================================================================================================================
+
+.home {
+	background: url('../../public/images/assets/bg.jpg') no-repeat 0 0 / cover;
+
+	width: 100vw;
+	height: 100vh;
+	padding-top: toRem(200);
+	padding-bottom: toRem(60);
+
+}
+
+.search {
+	display: grid;
+	grid-template-columns: 1fr;
+	justify-items: center;
+	place-content: center;
+
+	// .search__content
+	&__content {
+		display: flex;
+		background-color: #ffffff;
+		border-radius: toRem(5);
+		padding: toRem(10) toRem(20);
+		align-items: center;
+		max-width: toRem(532);
+		width: 100%;
+
+
+		.active & {
+			border-bottom-left-radius: toRem(0);
+			border-bottom-right-radius: toRem(0);
+		}
+	}
+
+	// .search__icon
+	&__icon {
+		margin-right: toRem(10);
+		cursor: pointer;
+	}
+
+	// .search__input
+	&__input {
+		flex: 1 1 auto;
+		border: none;
+		outline: none;
+		font-size: toRem(14);
+		font-weight: 300;
+	}
+
+	// .search__clear
+	&__clear {
+		cursor: pointer;
+		width: toRem(15);
+		height: toRem(15);
+	}
+
+	&__wrapper {
+
+		position: relative;
+		max-width: toRem(532);
+		width: 100%;
+		max-height: toRem(260);
+	}
+
+	// .search__result
+	&__result {
+		position: absolute;
+		left: 0;
+		top: 0;
+
+		width: 100%;
+		transition: opacity 0.3s;
+		overflow: hidden;
+		opacity: 0;
+
+		.active & {
+			opacity: 1;
+
+		}
+
+		z-index: 5;
+	}
+
+	// .search__current-location
+	&__current-location {
+		display: flex;
+		padding: toRem(12);
+		cursor: pointer;
+		transition: background-color 0.3s;
+		background-color: #ffffff;
+
+		@media (any-hover: hover) {
+			&:hover {
+				background-color: rgb(204, 204, 204);
+			}
+		}
+
+	}
+
+	// .search__current-result
+	&__current-result {
+		border-radius: toRem(0) toRem(0) toRem(5) toRem(5);
+	}
+
+	// .search__current-location-icon
+	&__current-location-icon {
+		margin-right: toRem(10);
+	}
+
+	&__list {
+		background-color: #ffffff;
+		border-bottom-left-radius: toRem(5);
+		border-bottom-right-radius: toRem(5);
+	}
+
+	// .search__item
+	&__item {
+		padding: toRem(12);
+		transition: background-color 0.3s;
+
+		@media (any-hover: hover) {
+			&:hover {
+				background-color: rgb(204, 204, 204);
+			}
+		}
+
+		cursor: pointer;
+
+	}
+
+	// .search__name
+	&__name {
+		font-weight: 700;
+		font-size: toRem(20);
+		margin-bottom: toRem(5);
+	}
+
+	// .search__long-name
+	&__long-name {}
+
+}
+
+.recent {
+
+	// .recent__locations
+	&__locations {
+		max-width: toRem(532);
+		margin: 0 auto;
+		padding-top: toRem(25);
+		color: #ffffff;
+	}
+
+	// .recent__title
+	&__title {
+		letter-spacing: toRem(0.6);
+		text-transform: uppercase;
+
+	}
+
+	// .recent__cards
+	&__cards {
+		margin-top: toRem(20);
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+
+		@media (max-width:$mobile) {
+			grid-template-columns: auto;
+		}
+
+		gap: toRem(20);
+
+	}
+
+	// .recent__card
+	&__card {}
+}
+
+.card {
+	padding: toRem(16);
+	background: rgba(0, 0, 0, .25);
+	backdrop-filter: blur(20px);
+	border-radius: toRem(10);
+	cursor: pointer;
+	transition: backdrop-filter 0.5s;
+
+	@media (any-hover: hover) {
+		&:hover {
+			backdrop-filter: blur(5px);
+		}
+	}
+
+	@media (max-width:$mobile) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	// .card__title
+	&__title {
+		font-size: toRem(18);
+		font-weight: 500;
+		padding-bottom: toRem(5);
+	}
+
+	// .card__title-country-label
+	&__title-country-label {
+		font-size: toRem(12);
+		padding-bottom: toRem(10);
+	}
+
+	// .card__widget
+	&__widget {
+		display: flex;
+		align-items: center;
+		padding-bottom: toRem(10);
+	}
+
+	// .card__icon
+	&__icon {
+		img {
+			width: toRem(32);
+			height: toRem(32);
+		}
+
+		margin-right: toRem(10);
+
+	}
+
+	// .card__tempr
+	&__tempr {
+		font-size: toRem(30);
+
+		span {
+			font-size: toRem(12);
+		}
+	}
+
+	// .card__real-feel
+	&__real-feel {
+		@media (max-width:$mobile) {
+			display: none;
+		}
+	}
+}

@@ -1,8 +1,9 @@
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
-import './App.css'
+import './scss/style.scss'
+
 import Home from './components/Pages/Home';
-import WetherByVidget from './components/Pages/WetherByVidget';
 import Header from './components/Header';
+import Wether from './components/Pages/Wether';
 
 // добавить возможность вібора страны done
 // - добавить инпут для выбора страны (как селект) done
@@ -29,8 +30,8 @@ function App() {
       element: <Root></Root>,
       children: [
         {
-          path: 'WetherByVidget/:lan/:lon',
-          element: <WetherByVidget></WetherByVidget>
+          path: 'Wether/:key',
+          element: <Wether></Wether>
         },
         {
           path: '/',

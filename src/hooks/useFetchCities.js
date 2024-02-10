@@ -1,11 +1,10 @@
 import axios from "axios";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFetching } from "./useFetchData";
 
-export default function useFetchCities(query, setCities, countryId, regionNameId) {
-
+export default function useFetchCities(query) {
+    const [places, setPlaces] = useState([]);
     const cb = useCallback(async () => {
-        if (!query) return;
 
         const { data } = await axios.get('http://dataservice.accuweather.com/locations/v1/cities/autocomplete', {
             params: {
@@ -14,17 +13,16 @@ export default function useFetchCities(query, setCities, countryId, regionNameId
                 language: import.meta.env.VITE_LOCALE_LANGUAGE,
             }
         });
-        // const data = getFromLocalStorage('test')
-        const filteredAndReplaced = data
-            .filter((el => el.AdministrativeArea.ID === regionNameId && el.Country.ID === countryId))
-            .map((el) => ({ ...el, name: el.LocalizedName }))
-        console.log(filteredAndReplaced);
-        setCities(filteredAndReplaced);
-    }, [query, setCities, countryId, regionNameId])
+
+        const slisedData = data.slice(0, 6);
+        setPlaces(slisedData);
+    }, [query])
 
     const [fetch, isLoading, error] = useFetching(cb)
+
     useEffect(() => {
         fetch();
     }, [fetch])
-    return [isLoading, error];
+
+    return [places, isLoading, error];
 }

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import AddLoactionForm from '../AddLoactionForm';
 import { findDoubles, getFromLocalStorage, isStoreByKey, saveToLocalStorage } from '../../utiles/utiles';
 import Vidgets from '../Vidgets';
+import SearchLocation from '../SearchLocation';
+import RecentLocations from '../RecentLocations';
 
 const Home = () => {
   const [selectedArea, setSelectedArea] = useState({
@@ -36,6 +38,11 @@ const Home = () => {
   }
   return (
     <section className='home'>
+      <div className="home__container">
+        <SearchLocation></SearchLocation>
+        <RecentLocations></RecentLocations>
+      </div>
+
       {/* <AddLoactionForm handleActiveLoacations={handleActiveLoacations} selectedArea={selectedArea} setSelectedArea={setSelectedArea}> </AddLoactionForm>
         <Vidgets locations={activeLoacations}></Vidgets> */}
     </section>
