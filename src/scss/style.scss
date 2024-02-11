@@ -191,9 +191,18 @@ body {
 		align-items: center;
 	}
 
+	&__link {
+		display: inline-flex;
+		align-items: center;
+		font-weight: 700;
+		letter-spacing: toRem(1);
+		font-size: toRem(20);
+		color: #ffffff;
 
-	// .header__logo
-	&__logo {}
+		span {
+			transform: translateX(-100%);
+		}
+	}
 
 	&__burger {
 		display: block;
@@ -312,6 +321,12 @@ body {
 		cursor: pointer;
 		width: toRem(15);
 		height: toRem(15);
+		opacity: 0;
+		transition: opacity 0.3s ease-in-out;
+
+		&._clear-show {
+			opacity: 1;
+		}
 	}
 
 	&__wrapper {
@@ -332,10 +347,11 @@ body {
 		transition: opacity 0.3s;
 		overflow: hidden;
 		opacity: 0;
+		pointer-events: none;
 
 		.active & {
 			opacity: 1;
-
+			pointer-events: unset;
 		}
 
 		z-index: 5;

@@ -5,6 +5,10 @@ import { useFetching } from "./useFetchData";
 export default function useFetchCities(query) {
     const [places, setPlaces] = useState([]);
     const cb = useCallback(async () => {
+        if (!query) {
+            setPlaces([]);
+            return;
+        }
 
         const { data } = await axios.get('http://dataservice.accuweather.com/locations/v1/cities/autocomplete', {
             params: {

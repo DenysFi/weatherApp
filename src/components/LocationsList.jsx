@@ -1,22 +1,12 @@
 import { memo } from "react";
-import { useNavigate } from "react-router-dom";
+import { saveToRecentLocations } from "../utiles/utiles";
 
-const LocationsList = memo(function LocationsList({ data }) {
-    const navigate = useNavigate();
-
-
-    function forwardToWetherPage(key) {
-        navigate(`Wether/${key}`)
-    }
-
-    function saveToRecentLocations() {
-
-    }
+const LocationsList = memo(function LocationsList({ data, forwardToWetherPage }) {
 
     function onClick(place) {
         forwardToWetherPage(place.Key)
+        saveToRecentLocations(place)
     }
-
 
     return (
         <ul className="search__list">

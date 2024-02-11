@@ -1,24 +1,40 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import useFetchCities from "../hooks/useFetchCities";
 import useDebaunce from "../hooks/useDebounce";
 import LocationsList from "./LocationsList";
+import { getLocationByCoords, removeFromLocalStorage, saveToRecentLocations } from "../utiles/utiles";
+import { useNavigate } from "react-router-dom";
+import usePageNavigate from "../hooks/usePageNavigate";
 
 const SearchLocation = () => {
+    const forwardToWetherPage = usePageNavigate()
 
     const [query, setQuery] = useState('');
     const [isFocused, setIsFocused] = useState(false);
     const inputRef = useRef();
     const debouncedValue = useDebaunce(query);
+
     function handleQuery(e) {
         setQuery(e.target.value)
     }
-
+    function clearQuery() {
+        setQuery("")
+    }
     const handleFocusOut = () => {
         setIsFocused(false);
         inputRef.current.blur();
     }
-    const [data, isCitiesLoading, citiesError] = useFetchCities(debouncedValue)
+    const [data] = useFetchCities(debouncedValue)
 
+    async function onPositionSuccess(pos) {
+        const location = await getLocationByCoords(pos.coords);
+        saveToRecentLocations(location)
+        forwardToWetherPage(location.key)
+    }
+
+    function getCurrentPosition() {
+        navigator.geolocation.getCurrentPosition(onPositionSuccess);
+    }
 
     return (
         <div className={"search " + (isFocused ? 'active' : '')}>
@@ -34,19 +50,18 @@ const SearchLocation = () => {
                     value={query}
                     ref={inputRef}
                 />
-                <svg className="search__clear" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 18 18"><g fillRule="evenodd" transform="translate(-1 -1)"><rect width="2" height="24" x="9" y="-2" rx="1" transform="rotate(45 10 10)"></rect><rect width="2" height="24" x="9" y="-2" rx="1" transform="rotate(-45 10 10)"></rect></g></svg>
+                <svg onClick={clearQuery} className={"search__clear " + ((query.length > 0 && "_clear-show") || '')} xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 18 18"><g fillRule="evenodd" transform="translate(-1 -1)"><rect width="2" height="24" x="9" y="-2" rx="1" transform="rotate(45 10 10)"></rect><rect width="2" height="24" x="9" y="-2" rx="1" transform="rotate(-45 10 10)"></rect></g></svg>
             </div>
             <div className="search__wrapper ">
                 <div className="search__result">
-                    <div className="search__current-location">
+                    <div className="search__current-location" onClick={getCurrentPosition}>
                         <div className="search__current-location-icon">
                             <img src="https://www.awxcdn.com/adc-assets/images/icons/icon-gps.svg" alt="" />
                         </div>
                         <p>Use your current location</p>
                     </div>
                     <div className="search__current-result">
-                        <LocationsList data={data}></LocationsList>
-
+                        <LocationsList data={data} forwardToWetherPage={forwardToWetherPage}></LocationsList>
                     </div>
                 </div>
             </div>

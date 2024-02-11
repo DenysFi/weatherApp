@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export function saveToLocalStorage(data, key) {
     if (typeof key !== 'string') {
         return;
@@ -30,12 +32,31 @@ export function isStoreByKey(key) {
     return !!localStorage.getItem(key);
 }
 
-export function findDoubles(array, objectToCompare) {
-    return !array.some((area) => {
-        return area.city.name === objectToCompare.city.name &&
-            area.region.ID === objectToCompare.region.ID &&
-            area.country.ID === objectToCompare.country.ID;
-    });
+export function findDoubles(array, objectToCompare, key) {
+    return array.some((place) => place[key] === objectToCompare[key]);
 }
 
 export const replacedLocalizedNameToName = (data) => data.map((el) => ({ ...el, name: el.LocalizedName }))
+
+export async function getLocationByCoords({ latitude, longitude }) {
+    console.log(latitude, longitude);
+    const { data } = await axios.get('http://dataservice.accuweather.com/locations/v1/cities/geoposition/search', {
+        params: {
+            apikey: import.meta.env.VITE_ACCUWETHER_API_KEY,
+            language: import.meta.env.VITE_LOCALE_LANGUAGE,
+            q: `${latitude}, ${longitude}`,
+            toplevel: true
+        }
+    })
+
+    return data;
+}
+
+export function saveToRecentLocations(place) {
+    const localeStorageData = getFromLocalStorage('places') || []
+
+    if (findDoubles(localeStorageData, place, 'Key')) return;
+
+    const recentPlaces = [...localeStorageData, place].slice(-3);
+    saveToLocalStorage(recentPlaces, 'places')
+}
