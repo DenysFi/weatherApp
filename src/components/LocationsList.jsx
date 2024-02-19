@@ -23,8 +23,8 @@ const LocationsList = memo(function LocationsList({ data, forwardToWetherPage, e
                             <p className="search__long-name">{longName}</p>
                         </li>
                     )
-                }) : error.length && (<li className="search__item error">
-                    {error}
+                }) : error.length > 0 && (<li className="search__item error">
+                    {(error, error === 'Network error: ' ? 'Maximum number of search requests exceeded (50 per day), please use current location or recent.' : '')}
                 </li>)
             }
         </ul>

@@ -10,10 +10,11 @@ const RecentWidget = ({ place }) => {
     const cityName = prepareString((place.LocalizedName || place.EnglishName), 15);
     const countryName = prepareString((place.Country.LocalizedName || place.Country.EnglishName), 24);
 
-    const currentUnits = useSelector((state => state.settings.units))
-    const tempValue = Math.floor(place.info.Temperature[currentUnits.unitName].Value);
-    const tempUnit = place.info.Temperature[currentUnits.unitName].Unit
-    // доделать идею с роутером и его лоадером!!!
+    const { temp, tempUnitName, feelslike } = useSelector((state => state.settings.units))
+    const tempValue = Math.floor(place.info[temp]);
+    const feelsValue = Math.floor(place.info[feelslike]);
+    const tempUnit = place.info[tempUnitName]
+
     function onClick() {
         forwardToWetherPage((place.EnglishName || place.LocalizedName))
         dispatch(saveToRecentLocations(place))
@@ -28,9 +29,7 @@ const RecentWidget = ({ place }) => {
             </div>
             <div className="card__widget">
                 <div className="card__icon">
-                    <svg>
-                        <use xlinkHref={"../../images/icons.svg#" + place.info.WeatherIcon}></use>
-                    </svg>
+                    <img src={place.info.condition.icon} alt="" />
                 </div>
                 <span className="card__tempr">
                     {tempValue}°
@@ -38,7 +37,7 @@ const RecentWidget = ({ place }) => {
                 </span>
             </div>
             <div className="card__real-feel">
-                Real feel <span> {tempValue}°</span>
+                Real feel <span> {feelsValue}°</span>
             </div>
         </article>
     );

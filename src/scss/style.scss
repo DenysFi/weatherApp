@@ -60,10 +60,12 @@ $responsiveType: 1;
 // Обнулення ============================================================================================================================================================================================== =============================================================================================== ===============================================================================================
 @import "base/null";
 
+
+
 // Стилі тега BODY ============================================================================================================================================================================================================================================================================================================================================================================================
 body {
-	overflow: hidden;
 	background-color: #e4eaf2;
+	overflow-x: hidden;
 
 	// Скролл заблоковано
 	.lock & {
@@ -81,7 +83,6 @@ body {
 	min-height: 100%;
 	display: flex;
 	flex-direction: column;
-	overflow: hidden;
 
 	@supports (overflow: clip) {
 		overflow: clip;
@@ -177,12 +178,13 @@ body {
 
 
 .header {
-	background-color: #1f1f1f;
 	background: linear-gradient(0deg, rgba(255, 255, 255, 0) 10%, rgba(0, 0, 0, 1) 100%);
 	position: absolute;
 	left: 0;
 	top: 0;
 	width: 100%;
+
+
 
 	// .header__container
 	&__container {
@@ -233,6 +235,7 @@ body {
 		color: #ffffff;
 		display: flex;
 		align-items: center;
+		@include adaptiveValue("font-size", 16, 12);
 
 	}
 
@@ -249,6 +252,7 @@ body {
 
 	&__info {
 		padding-left: toRem(10);
+		font-size: toRem(16);
 	}
 
 	&__burger-wrapper {
@@ -328,7 +332,6 @@ body {
 	&__widget {
 		display: flex;
 		align-items: center;
-		max-width: toRem(700);
 		width: 100%;
 	}
 
@@ -353,17 +356,25 @@ body {
 .burger-content {
 	position: absolute;
 	z-index: 10;
-	top: 0;
+	top: -100vh;
 	background: #ffffff;
+
+	@media (max-width:$mobile) {
+		width: 100%;
+	}
+
 	width: toRem(310);
 	height: 100vh;
-	right: toRem(-320);
+	right: 0;
 	padding: toRem(20) toRem(22);
 	transition: right 0.5s ease-in-out;
 	box-shadow: -3px -1px 20px 2px rgba(0, 0, 0, 0.5);
+	transition: all 0.3s;
+	opacity: 0;
 
 	.menu-open & {
-		right: 0;
+		top: 0;
+		opacity: 1;
 	}
 
 	// .burger-content__line
@@ -727,14 +738,11 @@ body {
 
 	// .card__icon
 	&__icon {
-		svg {
+		img {
 			width: toRem(40);
 			height: toRem(40);
-			scale: 1.6;
 
-			@media (max-width:$mobileSmall) {}
 
-			filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
 		}
 
 		margin-right: toRem(10);
@@ -921,10 +929,7 @@ body {
 	&__link-card {}
 
 	// .current-wether__title-container
-	&__title-container {
-		background-color: #ffffff;
-		padding: toRem(20);
-	}
+	&__title-container {}
 
 	// .current-wether__body
 	&__body {
@@ -933,6 +938,11 @@ body {
 		border-bottom-left-radius: toRem(7);
 		border-bottom-right-radius: toRem(7);
 		display: flex;
+
+		@media (max-width:$mobile) {
+			flex-direction: column;
+		}
+
 		gap: toRem(10);
 	}
 
@@ -1034,9 +1044,14 @@ body {
 .title-container {
 	display: flex;
 	justify-content: space-between;
-	padding-bottom: toRem(15);
 	font-size: toRem(14);
 	border-bottom: toRem(1) solid rgba(gray, 0.2);
+	background-color: #ffffff;
+	padding: toRem(20) toRem(20) toRem(12);
+	background-color: #ffffff;
+	padding: toRem(20) toRem(20) toRem(15);
+	border-top-right-radius: toRem(7);
+	border-top-left-radius: toRem(7);
 
 	// .title-container__title
 	&__title {
@@ -1064,3 +1079,129 @@ body {
 		gap: toRem(20);
 	}
 }
+
+//========================================================================================================================================================
+
+.hourly-small-widget {
+	display: grid;
+	gap: toRem(20);
+	text-align: center;
+	min-width: toRem(40);
+	align-items: center;
+
+	// .hourly-small-widget__hour
+	&__hour {
+		font-weight: 700;
+		font-size: toRem(16);
+	}
+
+	// .hourly-small-widget__icon
+	&__icon {
+		img {
+			width: toRem(40);
+			height: toRem(40);
+		}
+	}
+
+	// .hourly-small-widget__humidy
+	&__humidy {
+		font-weight: 300;
+		font-size: toRem(14);
+		color: #000;
+		opacity: 0.6;
+		display: flex;
+		align-self: center;
+		gap: toRem(5);
+		justify-content: center;
+
+		img {
+			height: toRem(12);
+			width: toRem(12);
+		}
+	}
+
+	&__temp {
+		@include adaptiveValue("font-size", 25, 20);
+		font-weight: 700;
+	}
+}
+
+//========================================================================================================================================================
+
+.whether-item-template {
+	max-width: toRem(632);
+
+	// .whether-item-template__title-container
+	&__title-container {}
+
+	// .whether-item-template__content
+	&__content {
+		background-color: #ffffff;
+		border-bottom-right-radius: toRem(7);
+		border-bottom-left-radius: toRem(7);
+		overflow: hidden;
+	}
+}
+
+//========================================================================================================================================================
+.hourly-slider {
+	display: grid;
+	grid-template-columns: toRem(34) 1fr toRem(34);
+	position: relative;
+
+	&__right-btn {
+		width: toRem(34);
+		height: 100%;
+		background-color: #c2c2c2;
+		background: linear-gradient(to bottom right, #ddbf9a, #ff7954);
+		transition: opacity 0.3s;
+
+		&[disabled] {
+			opacity: 0.4;
+
+		}
+
+		&::before {
+			content: '';
+			background: url('../../images/arrow.png') center no-repeat, ;
+			background-size: toRem(15);
+			display: block;
+			height: toRem(15);
+			rotate: -90deg;
+			filter: invert(100%);
+		}
+	}
+
+	&__left-btn {
+		width: toRem(34);
+		height: 100%;
+		background: linear-gradient(to bottom right, #ddbf9a, #ff7954);
+
+		transition: opacity 0.3s;
+
+		&[disabled] {
+			opacity: 0.5;
+
+		}
+
+		&::before {
+			content: '';
+			background: url('../../images/arrow.png') center no-repeat, ;
+			background-size: toRem(15);
+			display: block;
+			height: toRem(15);
+			rotate: 90deg;
+			filter: invert(100%);
+		}
+
+	}
+
+	&__swiper {
+		padding-top: toRem(20);
+		padding-bottom: toRem(20);
+	}
+}
+
+
+
+//========================================================================================================================================================

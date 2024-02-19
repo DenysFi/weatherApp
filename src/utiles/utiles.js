@@ -60,8 +60,8 @@ export async function getLocationByCoords({ latitude, longitude }) {
 //     saveToLocalStorage(recentPlaces, 'places')
 // }
 
-export function joinFullName({ LocalizedName = '', AdministrativeArea = '', Country = '', EnglishName = '' }) {
-    return [(LocalizedName || EnglishName), (AdministrativeArea.LocalizedName || AdministrativeArea.EnglishName), Country.ID].filter(str => str).join(', ');
+export function joinFullName({ name = '', LocalizedName = '', AdministrativeArea = '', Country = '', EnglishName = '' }) {
+    return [(name || LocalizedName || EnglishName), (AdministrativeArea.LocalizedName || AdministrativeArea.EnglishName), Country.ID].filter(str => str).join(', ');
 }
 export function prepareString(str, maxLength) {
     return str.length > maxLength ? str.slice(0, maxLength - 3) + '...' : str;
