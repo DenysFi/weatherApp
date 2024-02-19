@@ -13,13 +13,13 @@
 // Підключити, якщо є файл іконкового шрифту
 //@import "fonts/icons";
 @import url("https://fonts.googleapis.com/css?family=Poppins:regular,500,600,700,800,900&display=swap");
-
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300,500,600,700,800,900&display=swap");
 // ============================================================================================================================================================================================================================================================================================================================================================================================
 // Налаштування шаблону ============================================================================================================================================================================================================================================================================================================================================================================================
 // ============================================================================================================================================================================================================================================================================================================================================================================================
 
 // За замовчуванням шрифт ==============================================================================================================================================================================================================================================================================
-$fontFamily: "Poppins";
+$fontFamily: "Montserrat";
 $fontSize: toRem(16); // де 14(px) - розмір шрифту за замовчуванням з макету
 
 // Основні кольори
@@ -35,7 +35,7 @@ $minWidth: 320;
 // Ширина полотна (макету)
 $maxWidth: 1920;
 // Ширина обмежуючого контейнера (0 = немає обмеження)
-$maxWidthContainer: 1440;
+$maxWidthContainer: 1200;
 // Загальний відступ у контейнера
 // (30 = по 15px ліворуч і праворуч, 0 = немає відступу)
 $containerPadding: 30;
@@ -62,6 +62,8 @@ $responsiveType: 1;
 
 // Стилі тега BODY ============================================================================================================================================================================================================================================================================================================================================================================================
 body {
+	overflow: hidden;
+	background-color: #e4eaf2;
 
 	// Скролл заблоковано
 	.lock & {
@@ -177,7 +179,7 @@ body {
 .header {
 	background-color: #1f1f1f;
 	background: linear-gradient(0deg, rgba(255, 255, 255, 0) 10%, rgba(0, 0, 0, 1) 100%);
-	position: fixed;
+	position: absolute;
 	left: 0;
 	top: 0;
 	width: 100%;
@@ -186,8 +188,8 @@ body {
 	&__container {
 		display: flex;
 		justify-content: space-between;
-		padding-top: toRem(20);
-		padding-bottom: toRem(20);
+		min-height: toRem(64);
+
 		align-items: center;
 	}
 
@@ -196,12 +198,61 @@ body {
 		align-items: center;
 		font-weight: 700;
 		letter-spacing: toRem(1);
-		font-size: toRem(20);
+		@include adaptiveValue("font-size", 20, 14);
 		color: #ffffff;
+		max-width: toRem(300);
+		@include adaptiveValue("margin-right", 30, 0);
+
+		img {
+			width: toRem(32);
+			height: toRem(32);
+			margin-right: toRem(10);
+		}
 
 		span {
-			transform: translateX(-100%);
+			@media (max-width:$mobileSmall) {
+				display: none;
+			}
 		}
+	}
+
+	&__content {
+		display: flex;
+		align-items: center;
+		font-weight: 600;
+
+		@media (min-width:$tablet) {
+			width: 100%;
+
+		}
+
+		padding-right: toRem(10);
+	}
+
+	&__last-place-info {
+		color: #ffffff;
+		display: flex;
+		align-items: center;
+
+	}
+
+	&__wether-icon {
+		width: toRem(42);
+		height: toRem(42);
+
+		img {
+			width: toRem(42);
+			height: toRem(42);
+		}
+
+	}
+
+	&__info {
+		padding-left: toRem(10);
+	}
+
+	&__burger-wrapper {
+		padding: toRem(3);
 	}
 
 	&__burger {
@@ -216,6 +267,7 @@ body {
 		}
 
 		transition: all 0.3s;
+
 
 		span,
 		&::before,
@@ -246,36 +298,195 @@ body {
 		}
 
 		.menu-open & {
+
 			span {
-				width: 0;
+				animation-iteration-count: infinite;
+				animation-duration: 1s;
+				animation-name: burgerAnimation;
+				animation-direction: alternate;
+				animation-fill-mode: both;
 			}
 
-			&::before,
-			&::after {}
-
 			&::before {
-				top: calc(50% - toRem(1));
-				transform: rotate(-45deg);
+				animation-iteration-count: infinite;
+				animation-duration: 0.5s;
+				animation-direction: alternate;
+				animation-name: beforeBurgerAnimation;
+				animation-fill-mode: both;
 			}
 
 			&::after {
-				bottom: calc(50% - toRem(1));
-				transform: rotate(45deg);
+				animation-iteration-count: infinite;
+				animation-duration: 0.5s;
+				animation-direction: alternate;
+				animation-name: afterBurgerAnimation;
+				animation-fill-mode: both;
 			}
 		}
+	}
+
+	&__widget {
+		display: flex;
+		align-items: center;
+		max-width: toRem(700);
+		width: 100%;
+	}
+
+	&__search {
+		@media (max-width:$tablet) {
+			display: none;
+		}
+
+		align-items: flex-end;
+
+	}
+
+	&__last-place-info {
+		flex: 1 1 auto;
+	}
+
+	&__burger-content {}
+}
+
+//========================================================================================================================================================
+
+.burger-content {
+	position: absolute;
+	z-index: 10;
+	top: 0;
+	background: #ffffff;
+	width: toRem(310);
+	height: 100vh;
+	right: toRem(-320);
+	padding: toRem(20) toRem(22);
+	transition: right 0.5s ease-in-out;
+	box-shadow: -3px -1px 20px 2px rgba(0, 0, 0, 0.5);
+
+	.menu-open & {
+		right: 0;
+	}
+
+	// .burger-content__line
+	&__line {
+		margin-bottom: toRem(15);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+	}
+
+	// .burger-content__settings
+	&__settings {
+		display: flex;
+		align-items: center;
+		column-gap: toRem(10);
+		cursor: pointer;
+
+		svg {
+			transition: rotate 0.3s;
+		}
+
+		@media (any-hover: hover) {
+			&:hover {
+				svg {
+					rotate: 90deg;
+
+				}
+			}
+		}
+
+		&:not(:last-child) {
+			padding-right: toRem(10);
+		}
+	}
+
+	// .burger-content__last-location
+	&__last-location {}
+
+	&__close-btn {
+		padding: toRem(5);
+
+		svg {
+			width: toRem(15);
+			height: toRem(15);
+		}
+
+		cursor: pointer;
+	}
+
+	// .burger-content__full-name
+	&__full-name {
+		white-space: nowrap;
+		text-transform: uppercase;
+		font-size: toRem(12);
+		letter-spacing: toRem(0.5);
+		padding-bottom: toRem(10);
+		border-bottom: toRem(1) solid rgba(0, 0, 0, .10);
+	}
+
+	// .burger-content__forecast
+	&__forecast {
+		margin-top: toRem(20);
+		display: grid;
+		row-gap: toRem(10);
+		font-size: toRem(16);
+		color: rgba(0, 0, 0, .6);
+		font-weight: 500;
+	}
+
+	// .burger-content__item
+	&__item {
+		@media (any-hover: hover) {
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+
+		padding: toRem(10) 0;
+		cursor: pointer;
+	}
+}
+
+//========================================================================================================================================================
+
+@keyframes beforeBurgerAnimation {
+	from {
+		width: 100%;
+	}
+
+	to {
+		width: 50%;
+	}
+}
+
+@keyframes burgerAnimation {
+	from {
+		width: 75%;
+	}
+
+	to {
+		width: 30%;
+	}
+}
+
+@keyframes afterBurgerAnimation {
+	from {
+		width: 50%;
+	}
+
+	to {
+		width: 100%;
 	}
 }
 
 //========================================================================================================================================================
 
 .home {
-	background: url('../../public/images/assets/bg.jpg') no-repeat 0 0 / cover;
-
-	width: 100vw;
-	height: 100vh;
-	padding-top: toRem(200);
+	background: url('../../public/images/assets/bg2.jpg') no-repeat 0 0 / cover;
+	background-position: center;
+	min-height: 100vh;
+	@include adaptiveValue("padding-top", 200, 80);
 	padding-bottom: toRem(60);
-
 }
 
 .search {
@@ -289,6 +500,12 @@ body {
 		display: flex;
 		background-color: #ffffff;
 		border-radius: toRem(5);
+
+		._inHeader & {
+			padding: toRem(5) toRem(10);
+			width: toRem(300);
+		}
+
 		padding: toRem(10) toRem(20);
 		align-items: center;
 		max-width: toRem(532);
@@ -351,7 +568,7 @@ body {
 
 		.active & {
 			opacity: 1;
-			pointer-events: unset;
+			pointer-events: initial;
 		}
 
 		z-index: 5;
@@ -400,6 +617,12 @@ body {
 			}
 		}
 
+		&.error {
+			text-align: center;
+			font-weight: 700;
+			pointer-events: none;
+		}
+
 		cursor: pointer;
 
 	}
@@ -424,6 +647,8 @@ body {
 		margin: 0 auto;
 		padding-top: toRem(25);
 		color: #ffffff;
+		position: relative;
+		z-index: 1;
 	}
 
 	// .recent__title
@@ -435,12 +660,16 @@ body {
 
 	// .recent__cards
 	&__cards {
+
+		position: relative;
 		margin-top: toRem(20);
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: minmax(auto, toRem(146));
 
 		@media (max-width:$mobile) {
 			grid-template-columns: auto;
+			grid-template-rows: repeat(3, toRem(80));
 		}
 
 		gap: toRem(20);
@@ -452,6 +681,7 @@ body {
 }
 
 .card {
+
 	padding: toRem(16);
 	background: rgba(0, 0, 0, .25);
 	backdrop-filter: blur(20px);
@@ -476,6 +706,7 @@ body {
 		font-size: toRem(18);
 		font-weight: 500;
 		padding-bottom: toRem(5);
+		white-space: nowrap;
 	}
 
 	// .card__title-country-label
@@ -488,14 +719,22 @@ body {
 	&__widget {
 		display: flex;
 		align-items: center;
-		padding-bottom: toRem(10);
+
+		@media (min-width:$mobileSmall) {
+			padding-bottom: toRem(10);
+		}
 	}
 
 	// .card__icon
 	&__icon {
-		img {
-			width: toRem(32);
-			height: toRem(32);
+		svg {
+			width: toRem(40);
+			height: toRem(40);
+			scale: 1.6;
+
+			@media (max-width:$mobileSmall) {}
+
+			filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
 		}
 
 		margin-right: toRem(10);
@@ -516,5 +755,312 @@ body {
 		@media (max-width:$mobile) {
 			display: none;
 		}
+	}
+}
+
+.settings {
+	padding-top: toRem(100);
+
+	// .settings__container
+	&__container {}
+
+	&__content {
+		padding: toRem(12);
+		background-color: #ffffff;
+	}
+
+	// .settings__title
+	&__title {
+		font-weight: 500;
+		text-transform: uppercase;
+		margin-bottom: toRem(16);
+	}
+
+	// .settings__list
+	&__list {}
+
+	// .settings__item
+	&__item {
+		display: flex;
+		justify-content: space-between;
+		gap: toRem(10);
+		font-weight: 500;
+		font-size: toRem(18);
+
+		&+& {
+			padding-top: toRem(15);
+		}
+
+		&:not(:last-child) {
+			padding-bottom: toRem(10);
+			border-bottom: toRem(1) solid rgba(#000000, 0.2);
+		}
+	}
+
+	// .settings__label
+	&__label {}
+
+	// .settings__select
+	&__select {}
+}
+
+//========================================================================================================================================================
+.widget-skeleton-loader {
+	min-width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .25);
+	backdrop-filter: blur(20px);
+	border-radius: toRem(10);
+	position: relative;
+	overflow: hidden;
+
+	&::after {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		transform: translateX(-100%);
+
+		background-image: linear-gradient(90deg,
+				rgba(#d4d4d4, 0) 0,
+				rgba(#cfcece, 0.2) 20%,
+				rgba(#ebebeb, 0.5) 60%,
+				rgba(#c2c2c2, 0));
+
+		animation: shimmer 2s infinite;
+		content: '';
+	}
+}
+
+@keyframes shimmer {
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+//========================================================================================================================================================
+
+.forecast {
+
+	// .forecast__container
+	&__container {}
+
+	// .forecast__back-btn
+	// &__back-btn {}
+
+	// .forecast__navigation
+	&__navigation {}
+
+
+}
+
+//========================================================================================================================================================
+.forecast-navigation {
+
+	&__nav {
+		width: 100%;
+		border-bottom: toRem(1) solid rgb(204, 204, 204);
+	}
+
+	&__container {
+		padding-top: toRem(74);
+	}
+
+	// .forecast-navigation__items
+	// .forecast__items
+	&__items {
+		display: flex;
+		gap: toRem(30);
+	}
+
+	// .forecast__item
+	&__item {
+		position: relative;
+
+		&::before {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			border-bottom: toRem(2) solid orange;
+			scale: 0;
+			transition: scale 0.3s;
+			width: 100%;
+
+
+		}
+
+		&.active {
+			&::before {
+				scale: 1;
+
+			}
+		}
+	}
+
+	// .forecast__link
+	&__link {
+		font-weight: 600;
+		font-size: toRem(18);
+		line-height: toRem(45);
+		color: rgba(0, 0, 0, .6);
+		position: relative;
+	}
+}
+
+//========================================================================================================================================================
+
+.current-wether {
+	overflow: hidden;
+	border-radius: toRem(7);
+	max-width: toRem(632);
+	min-height: toRem(222);
+
+	// .current-wether__link-card
+	&__link-card {}
+
+	// .current-wether__title-container
+	&__title-container {
+		background-color: #ffffff;
+		padding: toRem(20);
+	}
+
+	// .current-wether__body
+	&__body {
+		background-color: #ffffff;
+		padding: toRem(20);
+		border-bottom-left-radius: toRem(7);
+		border-bottom-right-radius: toRem(7);
+		display: flex;
+		gap: toRem(10);
+	}
+
+	// .current-wether__content
+	&__content {
+		flex: 0 1 50%;
+	}
+
+	&__wrapper {
+		display: flex;
+		gap: toRem(10);
+		margin-bottom: toRem(20);
+		align-items: center;
+	}
+
+	// .current-wether__icon
+	&__icon {
+		img {
+			width: toRem(64);
+			height: toRem(64);
+		}
+	}
+
+	// .current-wether__temperature
+	&__temperature {}
+
+	// .current-wether__degree
+	&__degree {
+		display: flex;
+
+		p {
+			font-size: toRem(40);
+		}
+
+		span {
+			align-self: flex-end;
+			font-size: toRem(18);
+		}
+
+		margin-bottom: toRem(5);
+	}
+
+	// .current-wether__real-feel
+	&__real-feel {}
+
+	// .current-wether__phrase
+	&__phrase {
+		display: flex;
+		padding-bottom: toRem(4);
+		font-weight: 700;
+	}
+
+	// .current-wether__details
+	&__details {
+		display: flex;
+		align-items: center;
+
+		@media (any-hover: hover) {
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	// .current-wether__arrow
+	&__arrow {
+		margin-left: toRem(10);
+		transform: rotate(-90deg);
+	}
+
+	// .current-wether__info
+	&__info {
+		flex: 1 0 50%;
+	}
+
+	// .current-wether__item
+	&__item {
+		padding-top: toRem(12);
+		padding-bottom: toRem(12);
+		display: flex;
+		justify-content: space-between;
+
+		&:not(:last-child) {
+			border-bottom: toRem(1) solid rgba(gray, 0.2);
+		}
+	}
+
+	// .current-wether__label
+	&__label {
+		margin-right: toRem(8);
+	}
+
+	// .current-wether__value
+	&__value {
+		font-weight: 700;
+	}
+}
+
+.title-container {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: toRem(15);
+	font-size: toRem(14);
+	border-bottom: toRem(1) solid rgba(gray, 0.2);
+
+	// .title-container__title
+	&__title {
+		opacity: 0.6;
+		font-weight: 500;
+	}
+
+	// .title-container__sub-title
+	&__sub-title {
+		font-weight: 700;
+	}
+}
+
+//========================================================================================================================================================
+.forecast {
+
+	// .forecast__container
+	&__container {
+		padding-top: toRem(10);
+	}
+
+	// .forecast__list
+	&__list {
+		display: grid;
+		gap: toRem(20);
 	}
 }

@@ -1,15 +1,24 @@
-import { getFromLocalStorage } from "../utiles/utiles";
 import RecentWidget from "./RecentWidget";
+import useFetchCurrentCondition from "../hooks/useFetchCurrentCondition";
+import WidgetSkeleton from "./WidgetSkeleton";
+import { useSelector } from "react-redux";
+
 
 const RecentLocations = () => {
-    const recentLocations = getFromLocalStorage('places') || []
+    const locations = useSelector((state) => state.recent.places)
+    // console.log(locations);
+    // const localeStorageData = useMemo(() => {
+    //     return getFromLocalStorage('places') || [];
+    // }, [])
 
+    const [recentLocations, isLoading] = useFetchCurrentCondition(locations);
     return (
         <section className="recent__locations">
             <h5 className="recent__title">Recent locations</h5>
             <div className="recent__cards">
-                {
-                    recentLocations.length > 0 && recentLocations.map((place) => {
+                {isLoading ?
+                    (new Array(locations.length).fill(null).map((_, i) => <WidgetSkeleton key={i} />))
+                    : recentLocations.length > 0 && recentLocations.map((place) => {
                         return (
                             <RecentWidget key={place.Key} place={place}></RecentWidget>
                         )

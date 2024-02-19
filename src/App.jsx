@@ -3,8 +3,13 @@ import './scss/style.scss'
 
 import Home from './components/Pages/Home';
 import Header from './components/Header';
-import Wether from './components/Pages/Wether';
-
+import WetherForecast from './components/Pages/WetherForecast';
+import Settings from './components/Pages/Settings';
+import { Provider } from 'react-redux';
+import { settingsStore } from './state/store';
+import HourlyForecast from './components/Pages/HourlyForecast';
+import DailyForecast from './components/Pages/DailyForecast';
+import ForecastsNavigation from './components/ForecastsNavigation';
 // добавить возможность вібора страны done
 // - добавить инпут для выбора страны (как селект) done
 // - по стране выбрать город (тоже как инпут) done
@@ -30,19 +35,45 @@ function App() {
       element: <Root></Root>,
       children: [
         {
-          path: 'Wether/:key',
-          element: <Wether></Wether>
-        },
-        {
           path: '/',
           element: <Home></Home>
-        }
+        },
+        {
+          path: '/settings',
+          element: <Settings></Settings>
+        },
+        {
+          path: '/forecasts',
+          element:
+            <>
+              <ForecastsNavigation></ForecastsNavigation>
+              <Outlet></Outlet>
+            </>
+          ,
+          children: [
+            {
+              path: '/forecasts/daily-forecast/:city',
+              element: <DailyForecast></DailyForecast>
+            },
+            {
+              path: '/forecasts/hourly-forecast/:city',
+              element: <HourlyForecast></HourlyForecast>
+            },
+            {
+              path: '/forecasts/Wether/:city',
+              element: <WetherForecast></WetherForecast>,
+            },
+          ]
+        },
+
       ],
     }
   ]
   )
   return (
-    <RouterProvider router={router} />
+    <Provider store={settingsStore}>
+      <RouterProvider router={router} />
+    </Provider>
   )
 }
 

@@ -5,7 +5,7 @@ export default function usePageNavigate() {
     const navigate = useNavigate();
 
     const forwardToWetherPage = useCallback((key) => {
-        navigate(`Wether/${key}`)
+        navigate(`/forecasts/Wether/${key}`)
     }, [navigate])
 
     return forwardToWetherPage;
