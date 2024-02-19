@@ -1,12 +1,9 @@
-import React from 'react'
 import { useSelector } from 'react-redux';
 
 export default function HourlySmallWidget({ data }) {
     let hour = new Date(data.time).getHours();
     hour = hour > 9 ? hour : '0' + hour;
     const { temp } = useSelector(state => state.settings.units)
-    console.log(data);
-    console.log(hour[temp]);
 
     return (
         <>

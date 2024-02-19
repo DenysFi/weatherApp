@@ -1,10 +1,17 @@
 import CurrentWetherCard from '../CurrentWetherCard';
 import WetherItemTemplate from '../WetherItemTemplate';
 import HourlySlider from '../HourlySlider';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchForecast } from '../../state/currentForecast/currentForecastSlice';
 
 const WetherForecast = () => {
     const place = useSelector(state => state.recent.places[0]);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        const { Latitude, Longitude } = place.GeoPosition
+        dispatch(fetchForecast(Latitude, Longitude))
+    }, [dispatch, place]);
     return (
         <section className='forecast'>
             <div className="forecast__container">

@@ -5,11 +5,12 @@ import Home from './components/Pages/Home';
 import Header from './components/Header';
 import WetherForecast from './components/Pages/WetherForecast';
 import Settings from './components/Pages/Settings';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import { settingsStore } from './state/store';
 import HourlyForecast from './components/Pages/HourlyForecast';
 import DailyForecast from './components/Pages/DailyForecast';
 import ForecastsNavigation from './components/ForecastsNavigation';
+import { fetchForecast } from './state/currentForecast/currentForecastSlice';
 // добавить возможность вібора страны done
 // - добавить инпут для выбора страны (как селект) done
 // - по стране выбрать город (тоже как инпут) done
@@ -29,6 +30,8 @@ function Root() {
   );
 }
 function App() {
+  const dispatch = useDispatch();
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -50,6 +53,12 @@ function App() {
               <Outlet></Outlet>
             </>
           ,
+          loader: ({ params }) => {
+            console.log(params);
+            // const
+            // const { Latitude, Longitude } = place.GeoPosition
+            // dispatch(fetchForecast(Latitude, Longitude))
+          },
           children: [
             {
               path: '/forecasts/daily-forecast/:city',

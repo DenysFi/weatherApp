@@ -28,7 +28,7 @@ const Header = () => {
                 <div className="header__content">
                     <Link to="/" className="header__link">
                         <img src="../../images/sun.png" alt="" />
-                        <span>DeniWether</span>
+                        <span>DeniWeather</span>
                     </Link>
                     {!isOnMainRoute && (
                         <div className="header__widget">
@@ -45,8 +45,7 @@ const Header = () => {
                                 <SearchLocation header={true}></SearchLocation>
                             </div>
                         </div>
-                    )
-                    }
+                    )}
                 </div>
 
                 <div className="header__burger-wrapper">
