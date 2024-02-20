@@ -5,20 +5,20 @@ import Home from './components/Pages/Home';
 import Header from './components/Header';
 import WetherForecast from './components/Pages/WetherForecast';
 import Settings from './components/Pages/Settings';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
 import { settingsStore } from './state/store';
 import HourlyForecast from './components/Pages/HourlyForecast';
 import DailyForecast from './components/Pages/DailyForecast';
 import ForecastsNavigation from './components/ForecastsNavigation';
-import { fetchForecast } from './state/currentForecast/currentForecastSlice';
+
 // добавить возможность вібора страны done
 // - добавить инпут для выбора страны (как селект) done
 // - по стране выбрать город (тоже как инпут) done
 // - кнопка добавления страні и отображение иконки страны ниже done
 // сохранение локации в браузере пользователя done
-// вывод текущей погоды сокращенно 
-// переход на  страницу с данніми о погоде на неделю на основе текущего метоположения
-// роутер
+// вывод текущей погоды сокращенно  done 
+// переход на  страницу с данніми о погоде на неделю на основе текущего метоположения done
+// роутер done
 
 function Root() {
   return (
@@ -30,7 +30,6 @@ function Root() {
   );
 }
 function App() {
-  const dispatch = useDispatch();
 
   const router = createBrowserRouter([
     {
@@ -47,18 +46,11 @@ function App() {
         },
         {
           path: '/forecasts',
-          element:
+          element: (
             <>
               <ForecastsNavigation></ForecastsNavigation>
               <Outlet></Outlet>
-            </>
-          ,
-          loader: ({ params }) => {
-            console.log(params);
-            // const
-            // const { Latitude, Longitude } = place.GeoPosition
-            // dispatch(fetchForecast(Latitude, Longitude))
-          },
+            </>),
           children: [
             {
               path: '/forecasts/daily-forecast/:city',

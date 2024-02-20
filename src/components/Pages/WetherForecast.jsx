@@ -4,14 +4,12 @@ import HourlySlider from '../HourlySlider';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchForecast } from '../../state/currentForecast/currentForecastSlice';
+import useFetchAllData from '../../hooks/useFethcAllData';
 
 const WetherForecast = () => {
     const place = useSelector(state => state.recent.places[0]);
-    const dispatch = useDispatch();
-    useEffect(() => {
-        const { Latitude, Longitude } = place.GeoPosition
-        dispatch(fetchForecast(Latitude, Longitude))
-    }, [dispatch, place]);
+    useFetchAllData();
+
     return (
         <section className='forecast'>
             <div className="forecast__container">

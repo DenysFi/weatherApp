@@ -1,14 +1,10 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import useCurrentWether from "../hooks/useCurrentWether";
 
 
 const CurrentWetherCard = () => {
-    // const [currentCondition, setCurrentCondition] = useState([]);
-
-    const place = useSelector(state => state.recent.places[0])
+    const { currentCondition, loading } = useSelector(state => state.currentForecast);
     const { feelslike, temp, gust, speedUnitName, tempUnitName, wind } = useSelector(state => state.settings.units);
-    const [currentCondition, isLoading] = useCurrentWether(place)
     const date = new Date();
     let hours = date.getHours(), minutes = date.getMinutes();
     hours = hours < 10 ? '0' + hours : hours;
@@ -28,7 +24,7 @@ const CurrentWetherCard = () => {
                         <div className="current-wether__wrapper">
                             <div className="current-wether__icon">
                                 {
-                                    isLoading ? <img src='../../images/placeholder.png' alt="placeholder" /> : <img src={currentCondition?.condition?.icon} alt="wether icon" />
+                                    loading ? <img src='../../images/placeholder.png' alt="placeholder" /> : <img src={currentCondition?.condition?.icon} alt="wether icon" />
                                 }
                             </div>
                             <div className="current-wether__temperature">

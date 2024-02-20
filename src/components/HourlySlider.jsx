@@ -4,24 +4,10 @@ import { Navigation } from 'swiper/modules';
 import HourlySmallWidget from './HourlySmallWidget';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-export default function HourlySlider({ lat, lon }) {
-    const [hours, setHours] = useState([]);
-
-    useEffect(() => {
-        async function fether() {
-            const { data } = await axios.get('https://api.weatherapi.com/v1/forecast.json', {
-                params: {
-                    key: import.meta.env.VITE_WETHER_API_KEY,
-                    q: `${lat},${lon}`,
-                    lang: 'ru'
-                }
-            })
-            setHours(data.forecast.forecastday[0].hour);
-        }
-        fether();
-    }, [lat, lon])
-
+export default function HourlySlider() {
+    const { horly } = useSelector(state => state.currentForecast);
     const navigationPrevRef = useRef();
     const navigationNextRef = useRef();
     return (
@@ -53,68 +39,14 @@ export default function HourlySlider({ lat, lon }) {
                 onBeforeInit={(swiper) => {
                     swiper.params.navigation.prevEl = navigationPrevRef.current;
                     swiper.params.navigation.nextEl = navigationNextRef.current;
-                }}
-            >
-                {hours.map(hour => {
+                }}>
+                {horly.map(hour => {
                     return (
                         <SwiperSlide key={hour.time_epoch} className='hourly-small-widget'>
                             <HourlySmallWidget data={hour}></HourlySmallWidget>
                         </SwiperSlide>
                     )
                 })}
-
-                {/* <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide>
-                <SwiperSlide className='hourly-small-widget'>
-                    <HourlySmallWidget></HourlySmallWidget>
-                </SwiperSlide> */}
-
             </Swiper>
             <button ref={navigationNextRef} className="hourly-slider__right-btn"></button>
         </div>
