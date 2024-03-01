@@ -12,7 +12,7 @@ export default function useFetchCities(query) {
 
         const { data } = await axios.get('http://dataservice.accuweather.com/locations/v1/cities/autocomplete', {
             params: {
-                apikey: import.meta.env.VITE_ACCUWETHER_API_KEY,
+                apikey: import.meta.env.VITE_ACCUWEATHER_API_KEY,
                 q: query,
                 language: import.meta.env.VITE_LOCALE_LANGUAGE,
             }

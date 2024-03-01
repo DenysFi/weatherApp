@@ -11,14 +11,12 @@ const RecentWidget = ({ place }) => {
     const countryName = prepareString((place.Country.LocalizedName || place.Country.EnglishName), 24);
 
     const { temp, tempUnitName, feelslike } = useSelector((state => state.settings.units))
-    const tempValue = Math.floor(place.info[temp]);
-    const feelsValue = Math.floor(place.info[feelslike]);
-    const tempUnit = place.info[tempUnitName]
+    const tempValue = (!isNaN(Math.floor(place.info[temp])) && Math.floor(place.info[temp])) ?? '-';
+    const feelsValue = (!isNaN(Math.floor(place.info[feelslike])) && Math.floor(place.info[feelslike])) ?? '-';
 
     function onClick() {
         forwardToWetherPage((place.EnglishName || place.LocalizedName))
         dispatch(saveToRecentLocations(place))
-
     }
 
     return (
@@ -29,11 +27,11 @@ const RecentWidget = ({ place }) => {
             </div>
             <div className="card__widget">
                 <div className="card__icon">
-                    <img src={place.info.condition.icon} alt="" />
+                    <img src={place.info.condition?.icon || '../../images/placeholder.png'} alt="" />
                 </div>
                 <span className="card__tempr">
                     {tempValue}°
-                    <span>{tempUnit}</span>
+                    <span>{tempUnitName}</span>
                 </span>
             </div>
             <div className="card__real-feel">

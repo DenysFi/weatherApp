@@ -14,7 +14,6 @@ export default function useGeocoding(locations) {
                 }
             })
 
-            console.log(data);
             setGeolocations(data);
         }
         getAllGeo();

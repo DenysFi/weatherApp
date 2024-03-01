@@ -1,16 +1,18 @@
 import { memo } from "react";
-import { joinFullName } from "../utiles/utiles";
+import { getGeo, joinFullName } from "../utiles/utiles";
 import { useDispatch } from "react-redux";
 import { saveToRecentLocations } from "../state/recentLocations/recentSlice";
 
 const LocationsList = memo(function LocationsList({ data, forwardToWetherPage, error }) {
     const dispatch = useDispatch();
 
-    function onClick(place) {
-        console.log(place);
+    async function onClick({ ...place }) {
+
+        place['GeoPostion'] = await getGeo(place);
         place.timestamp = Date.now();
-        forwardToWetherPage(place.Key)
         dispatch(saveToRecentLocations(place))
+        forwardToWetherPage(place.EnglishName || place.LocalizedName || '')
+
     }
     return (
         <ul className="search__list">
@@ -18,13 +20,14 @@ const LocationsList = memo(function LocationsList({ data, forwardToWetherPage, e
                 data.length ? data.map((place) => {
                     const longName = joinFullName(place);
                     return (
-                        <li key={place.Key} className="search__item" onClick={() => onClick(place)}>
+                        <li key={place.Key} className="search__item" onMouseUp={() => onClick(place)}>
                             <p className="search__name">{place.LocalizedName}</p>
                             <p className="search__long-name">{longName}</p>
                         </li>
                     )
                 }) : error.length > 0 && (<li className="search__item error">
-                    {(error, error === 'Network error: ' ? 'Maximum number of search requests exceeded (50 per day), please use current location or recent.' : '')}
+                    {error}:
+                    {(error === 'Network Error' ? ' Maximum number of search requests exceeded (50 per day), please use recent location.' : '')}
                 </li>)
             }
         </ul>
@@ -32,3 +35,4 @@ const LocationsList = memo(function LocationsList({ data, forwardToWetherPage, e
 });
 
 export default LocationsList;
+

@@ -53,9 +53,9 @@ const Aside = () => {
             <div className="burger-content__last-location" onClick={(e) => e.stopPropagation()}>
                 <p className="burger-content__full-name">{slicedFullName}</p>
                 <ul className="burger-content__forecast">
-                    <ForecastLink path={'/forecasts/Wether/' + lastRecentPlace.Key} label={'Today'} classNames={'burger-content'}></ForecastLink>
-                    <ForecastLink path={'/forecasts/hourly-forecast/' + lastRecentPlace.Key} label={'Hourly'} classNames={'burger-content'}></ForecastLink>
-                    <ForecastLink path={'/forecasts/daily-forecast/' + lastRecentPlace.Key} label={'Daily'} classNames={'burger-content'}></ForecastLink>
+                    <ForecastLink path={'/forecasts/Wether/' + lastRecentPlace.name} label={'Today'} classNames={'burger-content'}></ForecastLink>
+                    <ForecastLink path={'/forecasts/hourly-forecast/' + lastRecentPlace.name} label={'Hourly'} classNames={'burger-content'}></ForecastLink>
+                    <ForecastLink path={'/forecasts/daily-forecast/' + lastRecentPlace.name} label={'Daily'} classNames={'burger-content'}></ForecastLink>
                 </ul>
             </div>
         </aside>

@@ -1,29 +1,45 @@
+
 import CurrentWetherCard from '../CurrentWetherCard';
-import WetherItemTemplate from '../WetherItemTemplate';
 import HourlySlider from '../HourlySlider';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchForecast } from '../../state/currentForecast/currentForecastSlice';
-import useFetchAllData from '../../hooks/useFethcAllData';
+import WetherItemTemplate from '../WetherItemTemplate';
+import withForecast from '../../HOCS/withForecast';
+import DaysList from '../DaysList';
+import Astro from '../Astro';
+import AirQuality from '../AirQuality';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
-const WetherForecast = () => {
-    const place = useSelector(state => state.recent.places[0]);
-    useFetchAllData();
+const WetherForecast = withForecast(function WetherForecast() {
+    const { loading, success, astro } = useSelector(state => state.currentForecast)
+    const [loader, setLoader] = useState(true);
+    // не понятный костыль ))
+    useEffect(() => {
+        if (!loading) setLoader(false)
+    }, [loading, success]);
 
+    const style = (loader) ? { opacity: 0 } : {};
     return (
         <section className='forecast'>
-            <div className="forecast__container">
+            <div className="forecast__container" style={style}>
                 <ul className="forecast__list">
                     <CurrentWetherCard></CurrentWetherCard>
                     <WetherItemTemplate title='Прогноз погоды'>
-                        <HourlySlider lat={place.GeoPosition.Latitude} lon={place.GeoPosition.Longitude}></HourlySlider>
+                        <HourlySlider ></HourlySlider>
                     </WetherItemTemplate>
-
+                    <WetherItemTemplate title='Ежедневный прогноз'>
+                        <DaysList></DaysList>
+                    </WetherItemTemplate>
+                    <WetherItemTemplate title='СОЛНЦЕ И ЛУНА'>
+                        <Astro astro={astro}></Astro>
+                    </WetherItemTemplate>
+                    <WetherItemTemplate title='КАЧЕСТВО ВОЗДУХА'>
+                        <AirQuality></AirQuality>
+                    </WetherItemTemplate>
                 </ul>
             </div>
         </section>
-    );
-};
+    )
+});
 
 export default WetherForecast;
 

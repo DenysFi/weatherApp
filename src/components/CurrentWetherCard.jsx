@@ -1,20 +1,23 @@
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-
+import { Link, useParams } from "react-router-dom";
+import { getUvColor } from "../utiles/utiles";
 
 const CurrentWetherCard = () => {
     const { currentCondition, loading } = useSelector(state => state.currentForecast);
     const { feelslike, temp, gust, speedUnitName, tempUnitName, wind } = useSelector(state => state.settings.units);
-    const date = new Date();
+    const date = new Date(currentCondition.last_updated);
+    const params = useParams();
     let hours = date.getHours(), minutes = date.getMinutes();
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     const currentTime = [hours, minutes].join('.');
     const currentTemp = !isNaN(currentCondition[temp]) ? Math.floor(currentCondition[temp]) : '-'
 
+    const [uvColor] = getUvColor(currentCondition?.uv);
+
     return (
         <li className="current-wether">
-            <Link className="current-wether__link-card">
+            <Link to={`/forecasts/daily-forecast/${params.city}?day=0`} className="current-wether__link-card">
                 <div className="current-wether__title-container title-container">
                     <h4 className="title-container__title">Текущаяя погода</h4>
                     <span className="title-container__sub-title">{currentTime}</span>
@@ -48,7 +51,7 @@ const CurrentWetherCard = () => {
                         </li>
                         <li className="current-wether__item">
                             <span className="current-wether__label">Ультрафиолет</span>
-                            <span className="current-wether__value">{currentCondition?.uv || '-'} </span>
+                            <span className="current-wether__value uv" style={{ color: uvColor }}>{currentCondition?.uv || '-'} </span>
                         </li>
                     </ul>
                 </div>

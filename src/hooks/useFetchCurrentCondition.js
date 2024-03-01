@@ -8,9 +8,9 @@ export default function useFetchCurrentCondition(places) {
 
     const cb = useCallback(async () => {
         const promises = places.map(async (place) => {
-            let { Longitude, Latitude } = place?.GeoPosition || await getGeo(place);
-            return new Promise((resolve, reject) => {
+            let { Longitude, Latitude, success = true } = place?.GeoPosition || await getGeo(place);
 
+            return new Promise((resolve, _reject) => {
                 axios.get('https://api.weatherapi.com/v1/current.json', {
                     params: {
                         key: import.meta.env.VITE_WETHER_API_KEY,
@@ -23,12 +23,19 @@ export default function useFetchCurrentCondition(places) {
                             ...place,
                             info: { ...resp.data.current },
                             GeoPosition: { Latitude: resp.data.location.lat, Longitude: resp.data.location.lon },
-                            EnglishName: resp.data.location.name
+                            EnglishName: resp.data.location.name,
+                            success
                         });
                     }, 500); // исскуственная задержка в 500 мс для скелетона
-                }).catch((e) => reject(e));
-
-
+                }).catch((e) => {
+                    resolve({
+                        ...place,
+                        info: {},
+                        GeoPosition: {},
+                        EnglishName: (place.EnglishName || place.LocalizedName),
+                        success
+                    });
+                });
             });
         })
         const data = await Promise.all(promises);

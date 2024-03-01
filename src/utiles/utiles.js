@@ -1,3 +1,4 @@
+import { convertLength } from "@mui/material/styles/cssUtils";
 import axios from "axios";
 
 export function saveToLocalStorage(data, key) {
@@ -41,7 +42,7 @@ export const replacedLocalizedNameToName = (data) => data.map((el) => ({ ...el, 
 export async function getLocationByCoords({ latitude, longitude }) {
     const { data } = await axios.get('http://dataservice.accuweather.com/locations/v1/cities/geoposition/search', {
         params: {
-            apikey: import.meta.env.VITE_ACCUWETHER_API_KEY,
+            apikey: import.meta.env.VITE_ACCUWEATHER_API_KEY,
             language: import.meta.env.VITE_LOCALE_LANGUAGE,
             q: `${latitude}, ${longitude}`,
             toplevel: true
@@ -75,7 +76,66 @@ export async function getGeo(place) {
             appid: import.meta.env.VITE_GEO_API_KEY
         }
     })
-    data = data.find(location => location.country === place.Country.ID);
-    return { Longitude: data?.lon, Latitude: data?.lat }
+    data = data.find(location => location.country === place.Country.ID) || [];
+    return { Longitude: data?.lon, Latitude: data?.lat, success: !(data.length === 0) }
 
+}
+
+export function getUvColor(index) {
+    const color =
+        index < 3 ? ['green', 'хороший'] :
+            index < 6 ? ['rgb(255, 187, 0)', 'Умеренный'] :
+                index < 8 ? ['rgb(255, 119, 33)', 'Средний'] :
+                    index < 11 ? ['rgb(255, 0, 0)', 'Опасный'] : [`rgb(210, 39, 255)`, 'Очень опасный']
+
+    return color
+}
+export function convertTime12to24(time) {
+    if (!time) return;
+
+    let [h, m] = time.split(/[:\s]/);
+
+    return `${(+h + 12) > 23 ? '00' : (+h + 12)}:${m}`;
+}
+
+function timeToMinutes(time) {
+    let [hours, minutes] = time.split(':').map(Number);
+    return hours * 60 + minutes;
+}
+
+export function diffInHours(start, end) {
+    if (!(start || end)) return;
+    let startMinutes = timeToMinutes(start);
+    let endMinutes = timeToMinutes(end);
+    let diffMinutes = endMinutes - startMinutes;
+
+    if (diffMinutes < 0) {
+        diffMinutes += 24 * 60;
+    }
+
+    let hours = Math.floor(diffMinutes / 60);
+    let minutes = diffMinutes % 60;
+    return { hours, minutes };
+}
+
+export function countAvg(data) {
+    return data.filter(Boolean).reduce((acc, value) => acc += value, 0) / data.length;
+}
+
+export function getMonthName(index) {
+    const monthNames = ['Января', 'Февраля', 'Марта', 'апреля', 'мая', 'июля', 'июня', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+    return monthNames[index];
+}
+export function countAvgStr(winddirections) {
+    const joined = winddirections.filter(Boolean).join(' ');
+
+    let result = winddirections[0];
+    let count = 0;
+
+    Array.from(new Set(winddirections)).forEach(direction => {
+        const length = joined.match(new RegExp(`\\b${direction}\\b`, 'gi'))?.length || 0;
+        [result, count] = length > count ? [direction, length] : [result, count];
+    })
+
+    return result;
 }

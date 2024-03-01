@@ -13,7 +13,6 @@ export default class Wether {
                         appid: import.meta.env.VITE_GEO_API_KEY
                     }
                 }).then(response => {
-                    console.log(response.data)
                     return;
                     const resp = {
                         ...response.data[0],

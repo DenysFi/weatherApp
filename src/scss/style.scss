@@ -54,6 +54,8 @@ $mobileSmall: em(479.98); // Телефони S
 // 2 = по брейк-поїнт (контейнер змінює свою ширину по брейк-поїнт)
 $responsiveType: 1;
 
+$orangeColor: #ff7954;
+$saturation: 1;
 // ============================================================================================================================================================================================================================================================================================================================================================================================
 // ============================================================================================================================================================================================================================================================================================================================================================================================
 
@@ -79,7 +81,7 @@ body {
 }
 
 // Оболонка wrapper ============================================================================================================================================================================================================================================================================================================================================================================================================================================
-.root {
+.wrapper {
 	min-height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -493,7 +495,7 @@ body {
 //========================================================================================================================================================
 
 .home {
-	background: url('../../public/images/assets/bg2.jpg') no-repeat 0 0 / cover;
+	background: url('../../images/assets/bg2.jpg') no-repeat 0 0 / cover;
 	background-position: center;
 	min-height: 100vh;
 	@include adaptiveValue("padding-top", 200, 80);
@@ -852,7 +854,10 @@ body {
 .forecast {
 
 	// .forecast__container
-	&__container {}
+	&__container {
+		transition: all 0.3s;
+
+	}
 
 	// .forecast__back-btn
 	// &__back-btn {}
@@ -880,6 +885,10 @@ body {
 	&__items {
 		display: flex;
 		gap: toRem(30);
+
+		@media (max-width:$mobile) {
+			overflow-x: auto;
+		}
 	}
 
 	// .forecast__item
@@ -922,7 +931,7 @@ body {
 .current-wether {
 	overflow: hidden;
 	border-radius: toRem(7);
-	max-width: toRem(632);
+	max-width: toRem(642);
 	min-height: toRem(222);
 
 	// .current-wether__link-card
@@ -1038,6 +1047,10 @@ body {
 	// .current-wether__value
 	&__value {
 		font-weight: 700;
+
+		&.uv {
+			font-size: toRem(22);
+		}
 	}
 }
 
@@ -1071,6 +1084,9 @@ body {
 	// .forecast__container
 	&__container {
 		padding-top: toRem(10);
+		padding-bottom: toRem(100);
+		transition: opacity 0.5s;
+		opacity: 1;
 	}
 
 	// .forecast__list
@@ -1132,10 +1148,23 @@ body {
 	max-width: toRem(632);
 
 	// .whether-item-template__title-container
-	&__title-container {}
+	&__title-container {
+		@media (max-width:$mobileSmall) {
+			margin-left: toRem(-15);
+			margin-right: toRem(-15);
+			padding-left: toRem(15);
+			padding-right: toRem(15);
+		}
+	}
 
 	// .whether-item-template__content
 	&__content {
+		@media (max-width:$mobileSmall) {
+			margin-left: toRem(-15);
+			margin-right: toRem(-15);
+			padding: 0 toRem(15);
+		}
+
 		background-color: #ffffff;
 		border-bottom-right-radius: toRem(7);
 		border-bottom-left-radius: toRem(7);
@@ -1152,8 +1181,7 @@ body {
 	&__right-btn {
 		width: toRem(34);
 		height: 100%;
-		background-color: #c2c2c2;
-		background: linear-gradient(to bottom right, #ddbf9a, #ff7954);
+		background: linear-gradient(to bottom right, #ddbf9a, var(--orange-color));
 		transition: opacity 0.3s;
 
 		&[disabled] {
@@ -1175,13 +1203,11 @@ body {
 	&__left-btn {
 		width: toRem(34);
 		height: 100%;
-		background: linear-gradient(to bottom right, #ddbf9a, #ff7954);
-
+		background: linear-gradient(to bottom right, #ddbf9a, var(--orange-color));
 		transition: opacity 0.3s;
 
 		&[disabled] {
 			opacity: 0.5;
-
 		}
 
 		&::before {
@@ -1205,3 +1231,635 @@ body {
 
 
 //========================================================================================================================================================
+.dayslist {}
+
+.small-day-widget {
+
+	@include adaptiveValue("padding-left", 20, 5);
+	@include adaptiveValue("padding-right", 20, 5);
+
+	&:not(:last-child) {
+		border-bottom: toRem(1) solid rgba(gray, 0.2);
+	}
+
+	// .small-day-widget__day
+	&__day {
+		text-align: center;
+		@include adaptiveValue("margin-right", 30, 10);
+
+		p {
+			font-weight: 700;
+			text-transform: uppercase;
+		}
+
+		span {
+			font-size: toRem(12);
+			white-space: nowrap;
+		}
+	}
+
+	&__link {
+		display: flex;
+		align-items: center;
+
+		@media (max-width:$mobileSmall) {
+			flex-direction: column;
+			row-gap: toRem(10);
+		}
+
+		padding-top: toRem(15);
+		padding-bottom: toRem(15);
+	}
+
+	// .small-day-widget__condition
+	&__condition {
+		display: flex;
+		align-items: end;
+
+		@media (min-width:$mobileSmall) {
+			flex: 1 1 toRem(140);
+			max-width: toRem(140);
+		}
+
+
+		span.day_temp {
+			font-size: toRem(28);
+			font-weight: 700;
+		}
+
+		span {
+			font-size: toRem(20);
+			margin-right: toRem(5);
+		}
+	}
+
+	// .small-day-widget__icon
+	&__icon {
+		margin-right: toRem(8);
+
+		img {
+			width: toRem(32);
+			height: toRem(32);
+		}
+	}
+
+	// .small-day-widget__status
+	&__status {
+		margin-right: toRem(5);
+	}
+
+	// .small-day-widget__humidy
+	&__humidy {
+		display: flex;
+		align-items: center;
+		gap: toRem(5);
+
+		@media (min-width:$mobileSmall) {
+			margin-left: auto;
+
+		}
+
+		img {
+			width: toRem(12);
+			height: toRem(12);
+		}
+	}
+}
+
+//========================================================================================================================================================
+.astro {
+	// .astro__items
+	@include adaptiveValue("padding", 20, 10);
+
+	&__items {
+		display: flex;
+
+		@media (max-width:$mobileSmall) {
+			flex-direction: column;
+			row-gap: toRem(20);
+		}
+	}
+
+
+	// .astro__item
+	&__item {
+		flex: 0 1 50%;
+
+		@media (min-width:$mobileSmall) {
+			&:last-child {
+				padding-left: toRem(12);
+			}
+
+			&:first-child {
+				padding-right: toRem(12);
+				border-right: toRem(1) solid rgba(0, 0, 0, .10);
+			}
+		}
+
+		@media (max-width:$mobileSmall) {
+			&:not(:last-child) {
+				border-bottom: toRem(1) solid rgba(0, 0, 0, .10);
+			}
+
+			padding-bottom: toRem(20);
+		}
+
+
+
+	}
+
+	// .astro__line
+	&__line {
+		&:first-child {
+			padding-bottom: toRem(16);
+		}
+
+		&:not(:last-child):not(:first-child) {
+			padding-bottom: toRem(10);
+
+		}
+
+		&:not(:last-child) {
+			border-bottom: toRem(1) solid rgba(0, 0, 0, .10);
+		}
+
+		&+& {
+			padding-top: toRem(10);
+		}
+
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: toRem(10);
+
+		&:not(:first-child) {
+			span {
+				font-weight: 400;
+				font-size: toRem(18);
+				line-height: 1.33;
+			}
+		}
+
+	}
+
+	// .astro__icon
+	&__icon {
+		img {
+			width: toRem(32);
+			height: toRem(32);
+		}
+	}
+
+	// .astro__time
+	&__time {
+		text-align: right;
+		font-size: toRem(14);
+		font-weight: 700;
+
+		p {
+			padding-bottom: toRem(3);
+		}
+	}
+
+	// .astro__sunrise
+	&__sunrise {
+		font-size: toRem(16);
+
+
+	}
+}
+
+//========================================================================================================================================================
+.airquality {
+	@include adaptiveValue("padding", 20, 10);
+
+	// .airquality__line
+	&__line {
+		display: flex;
+		margin-bottom: toRem(10);
+		align-items: center;
+		justify-content: space-between;
+		border-right: toRem(4) solid pink;
+	}
+
+	// .airquality__title
+	&__title {
+		display: flex;
+		align-items: center;
+	}
+
+	// .airquality__status
+	&__status {
+		font-weight: 700;
+		font-size: toRem(18);
+
+		padding-right: toRem(10);
+	}
+
+	// .airquality__desc
+	&__desc {
+		font-weight: 400;
+		text-align: justify;
+		font-size: 14px;
+	}
+}
+
+//========================================================================================================================================================
+.hourlyforecast {
+
+	// .hourlyforecast__container
+	&__container {
+		transition: all 0.3s;
+		opacity: 1;
+		transform: translate(0, 0);
+	}
+
+	// .hourlyforecast__cards
+	&__cards {
+		padding-top: toRem(20);
+		padding-bottom: toRem(20);
+		display: grid;
+		gap: toRem(10);
+	}
+
+	// .hourlyforecast__card
+	&__card {}
+}
+
+.hourly-card {
+	max-width: toRem(632);
+
+	// .hourly-card__header
+	&__header {
+		padding: toRem(16) toRem(14) toRem(16) toRem(14);
+		border-radius: toRem(5);
+		background-color: #ffffff;
+	}
+
+	// .hourly-card__top
+	&__top {
+		display: grid;
+		justify-content: space-between;
+		gap: toRem(10);
+		grid-template-columns: repeat(3, 1fr);
+
+		@media (max-width:$mobileSmall) {
+			grid-template-columns: repeat(2, 1fr);
+			grid-template-rows: repeat(2, auto);
+		}
+
+	}
+
+	// .hourly-card__sub-content
+	&__sub-content {
+		display: flex;
+		gap: toRem(10);
+		align-items: center;
+
+		@media (min-width:$mobileSmall) {
+			justify-self: end;
+
+		}
+
+
+		@media (max-width:$mobileSmall) {
+			&:first-child {
+				grid-column: span 2;
+				justify-content: space-between;
+				padding-bottom: toRem(10);
+			}
+
+			&:last-child {
+				justify-self: end;
+			}
+
+			margin-bottom: toRem(10);
+		}
+	}
+
+	&__image {
+		img {
+			width: toRem(62);
+			height: toRem(62);
+		}
+	}
+
+	// .hourly-card__hour
+	&__hour {
+		@include adaptiveValue("margin-right", 28, 5);
+		font-size: toRem(14);
+		font-weight: 700;
+	}
+
+	// .hourly-card__temp
+	&__temp {
+		font-size: toRem(48);
+	}
+
+	// .hourly-card__real-feel
+	&__real-feel {
+		font-weight: 400;
+	}
+
+	// .hourly-card__humidy
+	&__humidy {
+		color: #878787;
+
+		img {
+			margin-top: toRem(1);
+			margin-right: toRem(3);
+			width: toRem(12);
+			height: toRem(12);
+		}
+	}
+
+	// .hourly-card__status
+	&__status {
+		margin-top: toRem(16);
+		margin-bottom: toRem(22);
+		font-weight: 700;
+	}
+
+	// .hourly-card__items
+	&__items {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		column-gap: toRem(20);
+
+		@media (max-width:$mobileSmall) {
+			grid-template-columns: auto;
+		}
+	}
+
+	// .hourly-card__item
+	&__item {
+		padding: toRem(10) 0;
+
+	}
+
+	// .hourly-card__body
+	&__body {
+		padding: 0 toRem(14) toRem(16) toRem(14);
+		background-color: #ffffff;
+	}
+}
+
+.hourly-item {
+	display: flex;
+	justify-content: space-between;
+	gap: toRem(10);
+
+	&:not(:nth-last-child(-n+1)) {
+		border-bottom: toRem(1) solid rgba(0, 0, 0, .10);
+	}
+
+	// .hourly-item__text
+	&__text {}
+
+	// .hourly-item__value
+	&__value {}
+}
+
+//========================================================================================================================================================
+.dailyforecast {
+
+	// .dailyforecast__container
+	&__container {
+		padding-top: toRem(20);
+		padding-bottom: toRem(40);
+		transition: all 0.5s;
+		opacity: 1;
+		transform: translate(0, 0);
+
+	}
+
+	&__date {
+		text-transform: uppercase;
+	}
+
+	// .dailyforecast__cards
+	&__cards {
+		display: grid;
+		padding-top: toRem(20);
+		gap: toRem(10);
+	}
+
+	// .dailyforecast__card
+	&__card {}
+
+}
+
+.daily-card {
+	max-width: toRem(642);
+
+	// .hourly-card__header
+	&__header {
+		padding: toRem(16) toRem(14) toRem(16) toRem(14);
+		border-radius: toRem(5);
+		background-color: #ffffff;
+
+
+	}
+
+	// .hourly-card__top
+	&__top {
+		display: flex;
+		justify-content: space-between;
+		gap: toRem(10);
+
+		transition: scale 0.3s;
+
+		@media (any-hover: hover) {
+			&:hover {
+				scale: 1.01;
+			}
+		}
+	}
+
+	// .hourly-card__sub-content
+	&__sub-content {
+		display: flex;
+		gap: toRem(10);
+		align-items: center;
+
+		@media (min-width:$mobileSmall) {
+			justify-content: space-between;
+
+		}
+
+
+		@media (max-width:$mobileSmall) {
+			&:first-child {
+				grid-column: span 2;
+				justify-content: space-between;
+				padding-bottom: toRem(10);
+			}
+
+			&:last-child {
+				justify-self: end;
+			}
+
+			margin-bottom: toRem(10);
+		}
+	}
+
+	&__image {
+		img {
+			width: toRem(62);
+			height: toRem(62);
+		}
+	}
+
+	// .hourly-card__hour
+	&__day {
+		@include adaptiveValue("margin-right", 28, 5);
+
+		span {
+			font-weight: 700;
+			color: #000;
+		}
+
+		p {
+			color: #727272;
+			margin-top: toRem(5);
+			font-weight: 600;
+			font-size: toRem(14);
+		}
+
+		text-align: center;
+	}
+
+	// .hourly-card__temp
+	&__temp {
+		font-size: toRem(40);
+		font-weight: 700;
+
+		span {
+			color: #727272;
+			font-weight: 400;
+			font-size: toRem(18);
+		}
+	}
+
+	// .hourly-card__real-feel
+	&__real-feel {
+		font-weight: 400;
+	}
+
+	// .hourly-card__humidy
+	&__humidy {
+		color: #878787;
+
+
+		img {
+			margin-top: toRem(1);
+			margin-right: toRem(3);
+			width: toRem(12);
+			height: toRem(12);
+		}
+	}
+
+	// .hourly-card__status
+	&__status {
+		margin-top: toRem(16);
+		margin-bottom: toRem(22);
+		font-weight: 700;
+	}
+
+	// .hourly-card__items
+	&__items {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		column-gap: toRem(20);
+
+		@media (max-width:$mobileSmall) {
+			grid-template-columns: auto;
+		}
+	}
+
+	// .daily-card__item
+	&__item {
+		padding: toRem(10) 0;
+	}
+}
+
+.daily-item {
+	display: flex;
+	justify-content: space-between;
+	gap: toRem(10);
+
+	&:not(:nth-last-child(-n+1)) {
+		border-bottom: toRem(1) solid rgba(0, 0, 0, .10);
+	}
+
+	@include adaptiveValue("font-size", 16, 14);
+
+	// .hourly-item__text
+	&__text {}
+
+	// .hourly-item__value
+	&__value {}
+}
+
+//========================================================================================================================================================
+.errorLoading {
+	text-align: center;
+	padding-top: toRem(90);
+	font-size: toRem(30);
+	font-weight: 700;
+	opacity: 0;
+	transition: all 0.3s;
+}
+
+//========================================================================================================================================================
+
+.dailyByDayIndex {
+
+	// .dailyByDayIndex__container
+	&__container {}
+
+	// .dailyByDayIndex__pagination
+	&__pagination {
+		padding-top: toRem(30);
+		padding-bottom: toRem(10);
+		max-width: toRem(632);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: toRem(1) solid rgba(gray, 0.2);
+
+	}
+
+	// .dailyByDayIndex__left-btn
+	&__left-btn {
+		background: url('../../images/arrow.png');
+		width: toRem(14);
+		height: toRem(14);
+		background-repeat: no-repeat;
+		background-size: toRem(14);
+		rotate: 90deg;
+	}
+
+	// .dailyByDayIndex__current-date
+	&__current-date {
+		font-weight: 700;
+		text-transform: uppercase;
+	}
+
+	// .dailyByDayIndex__right-btn
+	&__right-btn {
+		background: url('../../images/arrow.png');
+		width: toRem(14);
+		height: toRem(14);
+		background-repeat: no-repeat;
+		background-size: toRem(14);
+		rotate: -90deg;
+	}
+
+	// .dailyByDayIndex__items
+	&__items {
+		display: grid;
+		padding-top: toRem(20);
+		gap: toRem(20);
+	}
+}

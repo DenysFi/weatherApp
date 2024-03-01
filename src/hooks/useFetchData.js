@@ -9,6 +9,7 @@ export function useFetching(callback) {
             await callback();
         } catch (e) {
             setError(e.message);
+
         } finally {
             setIsLoading(false)
         }

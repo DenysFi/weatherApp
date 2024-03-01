@@ -4,12 +4,11 @@ import { useSelector } from "react-redux";
 import { joinFullName, prepareString } from "../utiles/utiles";
 import SearchLocation from './SearchLocation'
 
-import useCurrentWether from "../hooks/useCurrentWether";
-
 const Header = () => {
     const location = useLocation();
     const isOnMainRoute = location.pathname === '/';
     const { temp, tempUnitName } = useSelector(state => state.settings.units)
+    const { currentCondition } = useSelector(state => state.currentForecast);
 
     function handleBurgerClick(e) {
         document.body.classList.toggle('menu-open')
@@ -17,10 +16,11 @@ const Header = () => {
     }
 
     const currentLocation = useSelector(state => state.recent.places)[0]
-    const [currentCondition, isLoading] = useCurrentWether(currentLocation)
     const fullName = currentLocation && joinFullName(currentLocation) || '';
     const slicedFullName = prepareString(fullName, 34)
 
+    let currentItem = Math.floor(currentCondition[temp]);
+    currentItem = isNaN(currentItem) ? '-' : currentItem;
 
     return (
         <header className="header" style={(!isOnMainRoute && { backgroundColor: '#1f1f1f' }) || {}}>
@@ -35,10 +35,12 @@ const Header = () => {
                             <Link to={'/forecasts/Wether/' + currentLocation.Key} className="header__last-place-info">
                                 {slicedFullName}
                                 <div className="header__info">
-                                    {Math.floor(currentCondition[temp])}°<span>{currentCondition[tempUnitName]}</span>
+                                    {currentItem}°<span>{currentCondition[tempUnitName]}</span>
                                 </div>
                                 <div className="header__wether-icon">
-                                    <img src={currentCondition?.condition?.icon} alt="" />
+                                    {
+                                        currentCondition.condition?.icon ? <img src={currentCondition.condition?.icon} /> : ''
+                                    }
                                 </div>
                             </Link>
                             <div className="header__search">

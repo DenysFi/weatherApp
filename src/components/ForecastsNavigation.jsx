@@ -1,8 +1,11 @@
 import { useParams } from "react-router-dom";
 import ForecastLink from "./ForecastLink";
+import useFetchAllForecast from "../hooks/useFethcAllData";
 
 const ForecastsNavigation = () => {
     const { city } = useParams();
+
+    useFetchAllForecast();
     return (
         <div className="forecast-navigation">
             <div className="forecast-navigation__container">

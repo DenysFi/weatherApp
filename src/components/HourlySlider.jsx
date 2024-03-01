@@ -2,14 +2,14 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import HourlySmallWidget from './HourlySmallWidget';
-import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
+import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 export default function HourlySlider() {
     const { horly } = useSelector(state => state.currentForecast);
     const navigationPrevRef = useRef();
     const navigationNextRef = useRef();
+
     return (
         <div className='hourly-slider'>
             <button ref={navigationPrevRef} className="hourly-slider__left-btn"></button>
@@ -42,7 +42,7 @@ export default function HourlySlider() {
                 }}>
                 {horly.map(hour => {
                     return (
-                        <SwiperSlide key={hour.time_epoch} className='hourly-small-widget'>
+                        <SwiperSlide key={hour.time_epoch}>
                             <HourlySmallWidget data={hour}></HourlySmallWidget>
                         </SwiperSlide>
                     )

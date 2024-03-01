@@ -3,14 +3,8 @@ import useFetchCurrentCondition from "../hooks/useFetchCurrentCondition";
 import WidgetSkeleton from "./WidgetSkeleton";
 import { useSelector } from "react-redux";
 
-
 const RecentLocations = () => {
     const locations = useSelector((state) => state.recent.places)
-    // console.log(locations);
-    // const localeStorageData = useMemo(() => {
-    //     return getFromLocalStorage('places') || [];
-    // }, [])
-
     const [recentLocations, isLoading] = useFetchCurrentCondition(locations);
     return (
         <section className="recent__locations">
