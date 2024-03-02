@@ -1,29 +1,15 @@
-import { useState } from 'react';
-import AddLoactionForm from '../AddLoactionForm';
-import { findDoubles } from '../../utiles/utiles';
-import Vidgets from '../Vidgets';
+import SearchLocation from '../SearchLocation';
+import RecentLocations from '../RecentLocations';
 
 const Home = () => {
-  const [selectedArea, setSelectedArea] = useState({
-    country: '',
-    city: '',
-    region: ''
-  });
-  const [activeLoacations, setActiveLoacations] = useState([]);
-
-  function handleActiveLoacations() {
-    if (findDoubles(activeLoacations, selectedArea)) {
-      setActiveLoacations([...activeLoacations, selectedArea])
-    }
-  }
-
   return (
     <section className='home'>
-      <AddLoactionForm handleActiveLoacations={handleActiveLoacations} selectedArea={selectedArea} setSelectedArea={setSelectedArea}> </AddLoactionForm>
-      <Vidgets locations={activeLoacations}></Vidgets>
+      <div className="home__container">
+        <SearchLocation></SearchLocation>
+        <RecentLocations></RecentLocations>
+      </div>
     </section>
   )
 };
-
 export default Home;
 

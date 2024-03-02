@@ -1,8 +1,9 @@
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import '../scss/vidgets.scss'
-import axios from 'axios';
+import Vidget from './Vidget';
 
 const Vidgets = memo(function Vidgets({ locations }) {
+<<<<<<< HEAD
     function fetchPromisesForNewFiture2() {
         console.log(11111111);
         return new Promise((r, re) => r(1));
@@ -28,19 +29,15 @@ const Vidgets = memo(function Vidgets({ locations }) {
         return new Promise((r, re) => r(1));
     }
 
+=======
+>>>>>>> move-app-on-new-design
     return (
         <div className="vidgets">
             {locations.length ?
                 locations.map(location => {
-                    const key = location.country + location.region + location.city;
+                    const key = location.country.name + location.region.name + location.city.name;
                     return (
-                        <article className='vidget' key={key}>
-                            <div className="vidget__location">
-                                <h3 className="vidget__city">{location.city}</h3>
-                                <p className="vidget__region">{location.region}</p>
-                                <p className="vidget__country">{location.country}</p>
-                            </div>
-                        </article>
+                        <Vidget location={location} key={key} />
                     )
                 }) : <h3 className='vidgets__empty'>Локации отсутствуют!</h3>
             }
