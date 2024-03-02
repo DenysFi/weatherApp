@@ -673,7 +673,6 @@ body {
 
 	// .recent__cards
 	&__cards {
-
 		position: relative;
 		margin-top: toRem(20);
 		display: grid;
@@ -1274,13 +1273,12 @@ body {
 	// .small-day-widget__condition
 	&__condition {
 		display: flex;
-		align-items: end;
+		align-items: flex-end;
 
 		@media (min-width:$mobileSmall) {
 			flex: 1 1 toRem(140);
 			max-width: toRem(140);
 		}
-
 
 		span.day_temp {
 			font-size: toRem(28);
