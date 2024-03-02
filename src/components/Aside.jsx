@@ -7,7 +7,6 @@ import ForecastLink from "./ForecastLink";
 const Aside = () => {
     const recentLocations = useSelector(state => state.recent.places)
     const lastRecentPlace = recentLocations[0];
-    console.log(lastRecentPlace);
     const fullName = lastRecentPlace && joinFullName(lastRecentPlace) || '';
     const slicedFullName = prepareString(fullName, 34)
     const city = (lastRecentPlace.name || lastRecentPlace.EnglishName || lastRecentPlace.LocalizedName || '').replace(' ', '-')
