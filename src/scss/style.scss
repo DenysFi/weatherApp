@@ -356,7 +356,7 @@ body {
 //========================================================================================================================================================
 
 .burger-content {
-	position: absolute;
+	position: fixed;
 	z-index: 10;
 	top: -100vh;
 	background: #ffffff;
@@ -495,7 +495,7 @@ body {
 //========================================================================================================================================================
 
 .home {
-	background: url('../../images/assets/bg2.jpg') no-repeat 0 0 / cover;
+	background: url('../../public/images/assets/bg2.jpg') no-repeat 0 0 / cover;
 	background-position: center;
 	min-height: 100vh;
 	@include adaptiveValue("padding-top", 200, 80);
@@ -1190,7 +1190,7 @@ body {
 
 		&::before {
 			content: '';
-			background: url('../../images/arrow.png') center no-repeat, ;
+			background: url('../../weatherApp/images/arrow.png') center no-repeat, ;
 			background-size: toRem(15);
 			display: block;
 			height: toRem(15);
@@ -1211,7 +1211,7 @@ body {
 
 		&::before {
 			content: '';
-			background: url('../../images/arrow.png') center no-repeat, ;
+			background: url('../../weatherApp/images/arrow.png') center no-repeat, ;
 			background-size: toRem(15);
 			display: block;
 			height: toRem(15);
@@ -1830,7 +1830,7 @@ body {
 
 	// .dailyByDayIndex__left-btn
 	&__left-btn {
-		background: url('../../images/arrow.png');
+		background: url('../../weatherApp/images/arrow.png');
 		width: toRem(14);
 		height: toRem(14);
 		background-repeat: no-repeat;
@@ -1846,7 +1846,7 @@ body {
 
 	// .dailyByDayIndex__right-btn
 	&__right-btn {
-		background: url('../../images/arrow.png');
+		background: url('../../weatherApp/images/arrow.png');
 		width: toRem(14);
 		height: toRem(14);
 		background-repeat: no-repeat;

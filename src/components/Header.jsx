@@ -1,12 +1,12 @@
-import { Link, useLocation } from "react-router-dom";
-import Aside from "./Aside";
 import { useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 import { joinFullName, prepareString } from "../utiles/utiles";
-import SearchLocation from './SearchLocation'
+import Aside from "./Aside";
+import SearchLocation from './SearchLocation';
 
 const Header = () => {
     const location = useLocation();
-    const isOnMainRoute = location.pathname === '/';
+    const isOnMainRoute = location.pathname === '/weatherApp';
     const { temp, tempUnitName } = useSelector(state => state.settings.units)
     const { currentCondition } = useSelector(state => state.currentForecast);
 
@@ -26,13 +26,13 @@ const Header = () => {
         <header className="header" style={(!isOnMainRoute && { backgroundColor: '#1f1f1f' }) || {}}>
             <div className="header__container">
                 <div className="header__content">
-                    <Link to="/" className="header__link">
-                        <img src="../../images/sun.png" alt="" />
+                    <Link to="/weatherApp" className="header__link">
+                        <img src="../../weatherApp/images/sun.png" alt="" />
                         <span>DeniWeather</span>
                     </Link>
                     {!isOnMainRoute && (
                         <div className="header__widget">
-                            <Link to={'/forecasts/Wether/' + currentLocation.Key} className="header__last-place-info">
+                            <Link to={'/weatherApp/forecasts/Weather/' + currentLocation.Key} className="header__last-place-info">
                                 {slicedFullName}
                                 <div className="header__info">
                                     {currentItem}°<span>{currentCondition[tempUnitName]}</span>

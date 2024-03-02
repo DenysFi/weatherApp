@@ -1,7 +1,7 @@
 {
   "name": "wetherapp",
   "private": true,
-  "homepage": "https://DenysFi.github.io/wetherApp/",
+  "homepage": "https://DenysFi.github.io/weatherApp/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

@@ -7,7 +7,7 @@ export default function usePageNavigate() {
     const forwardToWetherPage = useCallback((name) => {
         if (!name) return;
 
-        navigate(`/forecasts/Wether/${name.replace(' ', '-')}`)
+        navigate(`/weatherApp/forecasts/Weather/${name.replace(' ', '-')}`)
     }, [navigate])
 
     return forwardToWetherPage;

@@ -1,15 +1,15 @@
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
-import './scss/style.scss'
+import './scss/style.scss';
 
-import Home from './components/Pages/Home';
-import Header from './components/Header';
-import WetherForecast from './components/Pages/WetherForecast';
-import Settings from './components/Pages/Settings';
 import { Provider } from 'react-redux';
-import { settingsStore } from './state/store';
-import HourlyForecast from './components/Pages/HourlyForecast';
-import DailyForecast from './components/Pages/DailyForecast';
 import ForecastsNavigation from './components/ForecastsNavigation';
+import Header from './components/Header';
+import DailyForecast from './components/Pages/DailyForecast';
+import Home from './components/Pages/Home';
+import HourlyForecast from './components/Pages/HourlyForecast';
+import Settings from './components/Pages/Settings';
+import WetherForecast from './components/Pages/WetherForecast';
+import { settingsStore } from './state/store';
 
 // добавить возможность вібора страны done
 // - добавить инпут для выбора страны (как селект) done
@@ -33,19 +33,19 @@ function App() {
 
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: "/weatherApp/",
       element: <Root></Root>,
       children: [
         {
-          path: '/',
+          path: '/weatherApp/',
           element: <Home></Home>
         },
         {
-          path: '/settings',
+          path: '/weatherApp/settings',
           element: <Settings></Settings>
         },
         {
-          path: '/forecasts',
+          path: '/weatherApp/forecasts',
           element: (
             <>
               <ForecastsNavigation></ForecastsNavigation>
@@ -53,15 +53,15 @@ function App() {
             </>),
           children: [
             {
-              path: '/forecasts/daily-forecast/:city',
+              path: '/weatherApp/forecasts/daily-forecast/:city',
               element: <DailyForecast></DailyForecast>
             },
             {
-              path: '/forecasts/hourly-forecast/:city',
+              path: '/weatherApp/forecasts/hourly-forecast/:city',
               element: <HourlyForecast></HourlyForecast>
             },
             {
-              path: '/forecasts/Wether/:city',
+              path: '/weatherApp/forecasts/Weather/:city',
               element: <WetherForecast></WetherForecast>,
             },
           ]

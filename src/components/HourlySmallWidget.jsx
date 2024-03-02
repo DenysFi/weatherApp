@@ -7,7 +7,7 @@ export default function HourlySmallWidget({ data }) {
     const { temp } = useSelector(state => state.settings.units)
 
     return (
-        <Link to={'/forecasts/hourly-forecast/' + city} className='hourly-small-widget'>
+        <Link to={'/weatherApp/forecasts/hourly-forecast/' + city} className='hourly-small-widget'>
             <div className="hourly-small-widget__hour">
                 {hour}
             </div>

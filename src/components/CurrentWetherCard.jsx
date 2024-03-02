@@ -17,7 +17,7 @@ const CurrentWetherCard = () => {
 
     return (
         <li className="current-wether">
-            <Link to={`/forecasts/daily-forecast/${params.city}?day=0`} className="current-wether__link-card">
+            <Link to={`/weatherApp/forecasts/daily-forecast/${params.city}?day=0`} className="current-wether__link-card">
                 <div className="current-wether__title-container title-container">
                     <h4 className="title-container__title">Текущаяя погода</h4>
                     <span className="title-container__sub-title">{currentTime}</span>

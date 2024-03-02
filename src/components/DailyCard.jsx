@@ -16,7 +16,7 @@ export default function DailyCard({ data, dayindex }) {
     return (
         <article className="dailyforecast__card daily-card" >
             <div className="daily-card__header">
-                <Link to={`/forecasts/daily-forecast/${params.city}?day=${dayindex}`}>
+                <Link to={`/weatherApp/forecasts/daily-forecast/${params.city}?day=${dayindex}`}>
                     <div className="daily-card__top">
                         <div className="daily-card__sub-content">
                             <div className="daily-card__day">

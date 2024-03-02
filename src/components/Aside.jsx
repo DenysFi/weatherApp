@@ -1,13 +1,13 @@
-import { useNavigate } from "react-router-dom";
-import { joinFullName, prepareString } from "../utiles/utiles";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { joinFullName, prepareString } from "../utiles/utiles";
 import ForecastLink from "./ForecastLink";
 
 const Aside = () => {
     const recentLocations = useSelector(state => state.recent.places)
     const lastRecentPlace = recentLocations[0];
-
+    console.log(lastRecentPlace);
     const fullName = lastRecentPlace && joinFullName(lastRecentPlace) || '';
     const slicedFullName = prepareString(fullName, 34)
 
@@ -18,7 +18,7 @@ const Aside = () => {
 
     function onTransition(e) {
         e.stopPropagation();
-        navigate('/settings')
+        navigate('/weatherApp/settings')
         closeAside();
     }
 
@@ -53,9 +53,9 @@ const Aside = () => {
             <div className="burger-content__last-location" onClick={(e) => e.stopPropagation()}>
                 <p className="burger-content__full-name">{slicedFullName}</p>
                 <ul className="burger-content__forecast">
-                    <ForecastLink path={'/forecasts/Wether/' + lastRecentPlace.name} label={'Today'} classNames={'burger-content'}></ForecastLink>
-                    <ForecastLink path={'/forecasts/hourly-forecast/' + lastRecentPlace.name} label={'Hourly'} classNames={'burger-content'}></ForecastLink>
-                    <ForecastLink path={'/forecasts/daily-forecast/' + lastRecentPlace.name} label={'Daily'} classNames={'burger-content'}></ForecastLink>
+                    <ForecastLink path={'/weatherApp/forecasts/Weather/' + lastRecentPlace.EnglishName.replace(' ', '-')} label={'Today'} classNames={'burger-content'}></ForecastLink>
+                    <ForecastLink path={'/weatherApp/forecasts/hourly-forecast/' + lastRecentPlace.EnglishName.replace(' ', '-')} label={'Hourly'} classNames={'burger-content'}></ForecastLink>
+                    <ForecastLink path={'/weatherApp/forecasts/daily-forecast/' + lastRecentPlace.EnglishName.replace(' ', '-')} label={'Daily'} classNames={'burger-content'}></ForecastLink>
                 </ul>
             </div>
         </aside>

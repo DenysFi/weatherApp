@@ -1,6 +1,6 @@
 // vite.config.js
-import { defineConfig } from "file:///C:/Users/figur/OneDrive/%D0%A0%D0%B0%D0%B1%D0%BE%D1%87%D0%B8%D0%B9%20%D1%81%D1%82%D0%BE%D0%BB/wetherApp/node_modules/vite/dist/node/index.js";
-import react from "file:///C:/Users/figur/OneDrive/%D0%A0%D0%B0%D0%B1%D0%BE%D1%87%D0%B8%D0%B9%20%D1%81%D1%82%D0%BE%D0%BB/wetherApp/node_modules/@vitejs/plugin-react/dist/index.mjs";
+import react from "file:///C:/Users/figur/OneDrive/%D0%A0%D0%B0%D0%B1%D0%BE%D1%87%D0%B8%D0%B9%20%D1%81%D1%82%D0%BE%D0%BB/weatherApp/node_modules/@vitejs/plugin-react/dist/index.mjs";
+import { defineConfig } from "file:///C:/Users/figur/OneDrive/%D0%A0%D0%B0%D0%B1%D0%BE%D1%87%D0%B8%D0%B9%20%D1%81%D1%82%D0%BE%D0%BB/weatherApp/node_modules/vite/dist/node/index.js";
 var vite_config_default = defineConfig({
   plugins: [react()]
 });

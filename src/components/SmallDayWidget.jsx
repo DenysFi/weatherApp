@@ -10,7 +10,7 @@ export default function SmallDayWidget({ day, dayIndex }) {
     const dayMonth = `${date.getDate()}.${date.getMonth() + 1}`;
     return (
         <li className='small-day-widget'>
-            <Link to={`/forecasts/daily-forecast/${params.city}?day=${dayIndex}`} className='small-day-widget__link'>
+            <Link to={`/weatherApp/forecasts/daily-forecast/${params.city}?day=${dayIndex}`} className='small-day-widget__link'>
                 <div className="small-day-widget__day">
                     <p>{dayOfWeek}</p>
                     <span>{dayMonth}</span>
