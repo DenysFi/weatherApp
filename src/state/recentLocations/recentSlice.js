@@ -9,6 +9,7 @@ const initialState = {
             "Type": "City",
             "Rank": 20,
             "LocalizedName": "Киев",
+            "name": 'Kiyv',
             "Country": {
                 "ID": "UA",
                 "LocalizedName": "Украина"

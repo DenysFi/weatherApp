@@ -10,6 +10,7 @@ const Aside = () => {
     console.log(lastRecentPlace);
     const fullName = lastRecentPlace && joinFullName(lastRecentPlace) || '';
     const slicedFullName = prepareString(fullName, 34)
+    const city = (lastRecentPlace.name || lastRecentPlace.EnglishName || lastRecentPlace.LocalizedName || '').replace(' ', '-')
 
     const navigate = useNavigate();
     function closeAside() {
@@ -53,9 +54,9 @@ const Aside = () => {
             <div className="burger-content__last-location" onClick={(e) => e.stopPropagation()}>
                 <p className="burger-content__full-name">{slicedFullName}</p>
                 <ul className="burger-content__forecast">
-                    <ForecastLink path={'/weatherApp/forecasts/Weather/' + lastRecentPlace.EnglishName.replace(' ', '-')} label={'Today'} classNames={'burger-content'}></ForecastLink>
-                    <ForecastLink path={'/weatherApp/forecasts/hourly-forecast/' + lastRecentPlace.EnglishName.replace(' ', '-')} label={'Hourly'} classNames={'burger-content'}></ForecastLink>
-                    <ForecastLink path={'/weatherApp/forecasts/daily-forecast/' + lastRecentPlace.EnglishName.replace(' ', '-')} label={'Daily'} classNames={'burger-content'}></ForecastLink>
+                    <ForecastLink path={'/weatherApp/forecasts/Weather/' + city} label={'Today'} classNames={'burger-content'}></ForecastLink>
+                    <ForecastLink path={'/weatherApp/forecasts/hourly-forecast/' + city} label={'Hourly'} classNames={'burger-content'}></ForecastLink>
+                    <ForecastLink path={'/weatherApp/forecasts/daily-forecast/' + city} label={'Daily'} classNames={'burger-content'}></ForecastLink>
                 </ul>
             </div>
         </aside>
