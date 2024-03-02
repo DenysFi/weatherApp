@@ -21,7 +21,7 @@ export default function HourlyCard({ data }) {
                     </div>
                     <div className="hourly-card__sub-content">
                         <div className="hourly-card__humidy">
-                            <img src="../../../images/water.png" alt="" />
+                            <img src="../../weatherApp/images/water.png" alt="" />
                             {data.humidity}%
                         </div>
                     </div>

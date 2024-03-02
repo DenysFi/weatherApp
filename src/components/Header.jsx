@@ -6,7 +6,7 @@ import SearchLocation from './SearchLocation';
 
 const Header = () => {
     const location = useLocation();
-    const isOnMainRoute = location.pathname === '/weatherApp';
+    const isOnMainRoute = location.pathname === '/weatherApp/';
     const { temp, tempUnitName } = useSelector(state => state.settings.units)
     const { currentCondition } = useSelector(state => state.currentForecast);
 
@@ -26,7 +26,7 @@ const Header = () => {
         <header className="header" style={(!isOnMainRoute && { backgroundColor: '#1f1f1f' }) || {}}>
             <div className="header__container">
                 <div className="header__content">
-                    <Link to="/weatherApp" className="header__link">
+                    <Link to="/weatherApp/" className="header__link">
                         <img src="../../weatherApp/images/sun.png" alt="" />
                         <span>DeniWeather</span>
                     </Link>
